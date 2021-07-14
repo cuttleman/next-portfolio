@@ -10,6 +10,12 @@ const GlobalStyle = createGlobalStyle`
     text-decoration-line: none;
     color: rgb(0,0,0);
   }
+  html{
+    font-size: 16px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
 `;
 
 export default GlobalStyle;

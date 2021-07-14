@@ -7,4 +7,11 @@ declare module "myTypes" {
       title: string;
     }
   }
+
+  namespace Hooks {
+    interface WindowSizeS {
+      width: number;
+      height: number;
+    }
+  }
 }
