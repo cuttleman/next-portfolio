@@ -1,6 +1,6 @@
 export default class User {
-  public x: number; // x axis position
-  public y: number; // y axis position
+  private x: number; // x axis position
+  private y: number; // y axis position
   private size: number; // target size;
   private ctx: CanvasRenderingContext2D | null;
 
@@ -16,6 +16,7 @@ export default class User {
     this.ctx = ctx;
     this.draw = this.draw.bind(this);
     this.update = this.update.bind(this);
+    this.directionControl = this.directionControl.bind(this);
   }
 
   private draw() {
@@ -39,6 +40,26 @@ export default class User {
         this.y = this.ctx.canvas.height - this.size;
       }
       this.draw();
+    }
+  }
+
+  public directionControl(keyEvent: KeyboardEvent) {
+    const { code } = keyEvent;
+    switch (code) {
+      case "ArrowDown":
+        this.y += 30;
+        break;
+      case "ArrowUp":
+        this.y -= 30;
+        break;
+      case "ArrowRight":
+        this.x += 30;
+        break;
+      case "ArrowLeft":
+        this.x -= 30;
+        break;
+      default:
+        console.log(`key down code is: ${code}`);
     }
   }
 }

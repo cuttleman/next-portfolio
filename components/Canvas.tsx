@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import Structure from "../canvasItems/Structure";
+import styled from "styled-components";
 import User from "../canvasItems/User";
+import Structure from "../canvasItems/Structure";
 import useWindowSize from "../hooks/useWindowSize";
-import { getDistance, insertTarget, positionManipulator } from "../utils";
+import { insertTarget, positionManipulator } from "../utils";
+
+const CanvasS = styled.canvas`
+  background: url("/background.png") center/cover no-repeat fixed;
+`;
 
 export default function Canvas(props: any) {
   const windowSize = useWindowSize();
@@ -37,31 +42,23 @@ export default function Canvas(props: any) {
 
   const animate = () => {
     if (ctx) {
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.width);
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     }
     animateId = window.requestAnimationFrame(animate);
+    // main method
     structure1.update();
     structure2.update();
     user.update();
-    const distance1 = getDistance(user.x, user.y, structure1.x, structure1.y);
-    if (distance1 < 80) {
-      structure1.isContact = true;
-    } else {
-      structure1.isContact = false;
-    }
-    const distance2 = getDistance(user.x, user.y, structure2.x, structure2.y);
-    if (distance2 < 80) {
-      structure2.isContact = true;
-    } else {
-      structure2.isContact = false;
-    }
+
+    // behavior method
+    structure1.getDistance(user);
+    structure2.getDistance(user);
   };
 
   useEffect(() => {
     animate();
     positionManipulator(user);
-    insertTarget(structure1);
-    insertTarget(structure2);
+    insertTarget([structure1, structure2]);
     return () => window.cancelAnimationFrame(animateId);
   }, [ctx]);
 
@@ -73,5 +70,5 @@ export default function Canvas(props: any) {
     }
   }, [windowSize]);
 
-  return <canvas ref={canvasRef} {...props} />;
+  return <CanvasS ref={canvasRef} {...props} />;
 }
