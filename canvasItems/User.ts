@@ -2,6 +2,7 @@ export default class User {
   private x: number; // x axis position
   private y: number; // y axis position
   private size: number; // target size;
+  private viewport: { x: number; y: number }; // screen visibled user
   private ctx: CanvasRenderingContext2D | null;
 
   constructor(
@@ -15,6 +16,7 @@ export default class User {
     this.size = size;
     this.ctx = ctx;
     this.draw = this.draw.bind(this);
+    this.viewport = { x: 0, y: 0 };
     this.update = this.update.bind(this);
     this.directionControl = this.directionControl.bind(this);
   }
@@ -30,14 +32,17 @@ export default class User {
 
   public update() {
     if (this.ctx) {
-      if (this.x - this.size < 0) {
-        this.x = this.size;
-      } else if (this.x + this.size > this.ctx.canvas.width) {
-        this.x = this.ctx.canvas.width - this.size;
-      } else if (this.y - this.size < 0) {
-        this.y = this.size;
-      } else if (this.y + this.size > this.ctx.canvas.height) {
-        this.y = this.ctx.canvas.height - this.size;
+      if (this.x - this.size < 0 + this.viewport.x) {
+        this.x = this.size + this.viewport.x;
+      } else if (this.x + this.size > this.ctx.canvas.width + this.viewport.x) {
+        this.x = this.ctx.canvas.width + this.viewport.x - this.size;
+      } else if (this.y - this.size < 0 + this.viewport.y) {
+        this.y = this.size + this.viewport.y;
+      } else if (
+        this.y + this.size >
+        this.ctx.canvas.height + this.viewport.y
+      ) {
+        this.y = this.ctx.canvas.height + this.viewport.y - this.size;
       }
       this.draw();
     }
@@ -59,7 +64,19 @@ export default class User {
         this.x -= 30;
         break;
       default:
-        console.log(`key down code is: ${code}`);
+        break;
+    }
+  }
+
+  public getState() {
+    return { x: this.x, y: this.y, size: this.size, viewport: this.viewport };
+  }
+
+  public moveViewport(x: number, y: number) {
+    if (this.ctx) {
+      this.ctx.translate(x, y);
+      this.viewport.x += -x;
+      this.viewport.y += -y;
     }
   }
 }

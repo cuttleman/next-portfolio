@@ -1,28 +1,31 @@
 import User from "./User";
 
 export default class Structure {
+  private name: string;
   private x: number; // target position x axis
   private y: number; // target position y axis
   private isContact: boolean;
-  private url: string; // move to url on enter behavior
   private contactColor: string;
   private size: number; // structure size
   private ctx: CanvasRenderingContext2D | null;
+  private user: User;
 
   constructor(
+    name: string,
     x: number,
     y: number,
     isContact: boolean,
     ctx: CanvasRenderingContext2D | null,
-    url: string
+    user: User
   ) {
+    this.name = name;
     this.x = x;
     this.y = y;
     this.ctx = ctx;
     this.isContact = isContact;
     this.contactColor = "transparent";
-    this.url = url;
     this.size = 50;
+    this.user = user;
     this.draw = this.draw.bind(this);
     this.update = this.update.bind(this);
     this.getDistance = this.getDistance.bind(this);
@@ -52,11 +55,12 @@ export default class Structure {
     }
   }
 
-  public getDistance(target: User) {
+  public getDistance() {
     const targetDistance = Math.sqrt(
-      Math.pow(target.x - this.x, 2) + Math.pow(target.y - this.y, 2)
+      Math.pow(this.user.getState().x - this.x, 2) +
+        Math.pow(this.user.getState().y - this.y, 2)
     );
-    if (targetDistance <= target.size + this.size) {
+    if (targetDistance <= this.user.getState().size + this.size) {
       this.isContact = true;
     } else {
       this.isContact = false;
@@ -65,8 +69,21 @@ export default class Structure {
 
   public insertPage() {
     if (this.isContact) {
-      window.open(this.url);
-      console.log(`Insert: ${this.url} !!`);
+      if (this.ctx) {
+        const DISTANCE = 500; // *sample. will be canvas width
+        switch (this.name) {
+          case "sample1":
+            this.user.moveViewport(-DISTANCE, 0);
+            break;
+          case "sample2":
+            this.user.moveViewport(DISTANCE, 0);
+            break;
+          default:
+            break;
+        }
+        // this.ctx.canvas.style.backgroundImage =
+        //   "url(https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg)";
+      }
     }
   }
 }

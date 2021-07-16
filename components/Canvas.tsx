@@ -23,18 +23,20 @@ export default function Canvas(props: any) {
     ctx
   );
   const structure1: Structure = new Structure(
+    "sample1",
     600,
     300,
     false,
     ctx,
-    "https://www.naver.com" // sample
+    user
   );
   const structure2: Structure = new Structure(
+    "sample2",
     200,
     400,
     false,
     ctx,
-    "https://www.google.com" //sample
+    user
   );
 
   // Variables
@@ -42,7 +44,12 @@ export default function Canvas(props: any) {
 
   const animate = () => {
     if (ctx) {
-      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      ctx.clearRect(
+        user.getState().viewport.x,
+        user.getState().viewport.y,
+        ctx.canvas.width,
+        ctx.canvas.height
+      );
     }
     animateId = window.requestAnimationFrame(animate);
     // main method
@@ -51,8 +58,8 @@ export default function Canvas(props: any) {
     user.update();
 
     // behavior method
-    structure1.getDistance(user);
-    structure2.getDistance(user);
+    structure1.getDistance();
+    structure2.getDistance();
   };
 
   useEffect(() => {
