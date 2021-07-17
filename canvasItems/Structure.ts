@@ -51,8 +51,37 @@ export default class Structure {
       } else {
         this.contactColor = "transparent";
       }
-      this.draw();
+
+      switch (this.name) {
+        case "work":
+          this.x = this.ctx.canvas.width * 0.9;
+          this.y = this.ctx.canvas.height * 0.3;
+          break;
+        case "lecture":
+          this.x = this.ctx.canvas.width * 0.1;
+          this.y = this.ctx.canvas.height * 0.4;
+          break;
+        case "about":
+          this.x = this.ctx.canvas.width * 0.5;
+          this.y = this.ctx.canvas.height * 0.9;
+          break;
+        case "fromWork":
+          this.x = this.ctx.canvas.width + this.ctx.canvas.width * 0.1;
+          this.y = this.ctx.canvas.height * 0.3;
+          break;
+        case "fromLecture":
+          this.x = -this.ctx.canvas.width + this.ctx.canvas.width * 0.9;
+          this.y = this.ctx.canvas.height * 0.4;
+          break;
+        case "fromAbout":
+          this.x = this.ctx.canvas.width * 0.5;
+          this.y = this.ctx.canvas.height + this.ctx.canvas.height * 0.1;
+          break;
+        default:
+          break;
+      }
     }
+    this.draw();
   }
 
   public getDistance() {
@@ -70,13 +99,26 @@ export default class Structure {
   public insertPage() {
     if (this.isContact) {
       if (this.ctx) {
-        const DISTANCE = 500; // *sample. will be canvas width
+        const XDISTANCE = this.ctx.canvas.width;
+        const YDISTANCE = this.ctx.canvas.height;
         switch (this.name) {
-          case "sample1":
-            this.user.moveViewport(-DISTANCE, 0);
+          case "work":
+            this.user.moveViewport(-XDISTANCE, 0);
             break;
-          case "sample2":
-            this.user.moveViewport(DISTANCE, 0);
+          case "lecture":
+            this.user.moveViewport(XDISTANCE, 0);
+            break;
+          case "about":
+            this.user.moveViewport(0, -YDISTANCE);
+            break;
+          case "fromWork":
+            this.user.moveViewport(XDISTANCE, 0);
+            break;
+          case "fromLecture":
+            this.user.moveViewport(-XDISTANCE, 0);
+            break;
+          case "fromAbout":
+            this.user.moveViewport(0, YDISTANCE);
             break;
           default:
             break;

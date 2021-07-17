@@ -22,18 +22,52 @@ export default function Canvas(props: any) {
     30,
     ctx
   );
-  const structure1: Structure = new Structure(
-    "sample1",
-    600,
-    300,
+  // into
+  const work: Structure = new Structure(
+    "work",
+    windowSize.width * 0.9, // initial position
+    windowSize.height * 0.3, // initial position
     false,
     ctx,
     user
   );
-  const structure2: Structure = new Structure(
-    "sample2",
-    200,
-    400,
+  const lecture: Structure = new Structure(
+    "lecture",
+    windowSize.width * 0.1, // initial position
+    windowSize.height * 0.4, // initial position
+    false,
+    ctx,
+    user
+  );
+  const about: Structure = new Structure(
+    "about",
+    windowSize.width * 0.5, // initial position
+    windowSize.height * 0.9, // initial position
+    false,
+    ctx,
+    user
+  );
+  // back home
+  const fromWork: Structure = new Structure(
+    "fromWork",
+    windowSize.width + windowSize.width * 0.1, // initial position
+    windowSize.height * 0.3, // initial position
+    false,
+    ctx,
+    user
+  );
+  const fromLecture: Structure = new Structure(
+    "fromLecture",
+    -windowSize.width + windowSize.width * 0.9, // initial position
+    windowSize.height * 0.4, // initial position
+    false,
+    ctx,
+    user
+  );
+  const fromAbout: Structure = new Structure(
+    "fromAbout",
+    windowSize.width * 0.5, // initial position
+    windowSize.height + windowSize.height * 0.1, // initial position
     false,
     ctx,
     user
@@ -53,19 +87,27 @@ export default function Canvas(props: any) {
     }
     animateId = window.requestAnimationFrame(animate);
     // main method
-    structure1.update();
-    structure2.update();
+    work.update();
+    lecture.update();
+    about.update();
+    fromWork.update();
+    fromLecture.update();
+    fromAbout.update();
     user.update();
 
     // behavior method
-    structure1.getDistance();
-    structure2.getDistance();
+    work.getDistance();
+    lecture.getDistance();
+    about.getDistance();
+    fromWork.getDistance();
+    fromLecture.getDistance();
+    fromAbout.getDistance();
   };
 
   useEffect(() => {
     animate();
     positionManipulator(user);
-    insertTarget([structure1, structure2]);
+    insertTarget([work, lecture, about, fromWork, fromLecture, fromAbout]);
     return () => window.cancelAnimationFrame(animateId);
   }, [ctx]);
 
