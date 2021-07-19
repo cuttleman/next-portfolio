@@ -14,12 +14,13 @@ export default function Canvas(props: any) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas = canvasRef.current;
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
+  const [spriteImg, setSpriteImg] = useState<HTMLImageElement | null>(null);
 
   // Items
   const user: User = new User(
+    spriteImg,
     windowSize.width / 2,
     windowSize.height / 2,
-    30,
     ctx
   );
   // into
@@ -86,6 +87,7 @@ export default function Canvas(props: any) {
       );
     }
     animateId = window.requestAnimationFrame(animate);
+
     // main method
     work.update();
     lecture.update();
@@ -103,6 +105,12 @@ export default function Canvas(props: any) {
     fromLecture.getDistance();
     fromAbout.getDistance();
   };
+
+  useEffect(() => {
+    const myImg = new Image();
+    myImg.src = "/left_me.png";
+    setSpriteImg(myImg);
+  }, []);
 
   useEffect(() => {
     animate();
