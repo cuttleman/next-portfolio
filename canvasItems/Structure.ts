@@ -2,30 +2,29 @@ import User from "./User";
 
 export default class Structure {
   private name: string;
+  private structureImg: any;
   private x: number; // target position x axis
   private y: number; // target position y axis
   private isContact: boolean;
-  private contactColor: string;
   private size: number; // structure size
   private ctx: CanvasRenderingContext2D | null;
   private user: User;
 
   constructor(
     name: string,
-    x: number,
-    y: number,
-    isContact: boolean,
+    structureImg: any,
     ctx: CanvasRenderingContext2D | null,
     user: User
   ) {
     this.name = name;
-    this.x = x;
-    this.y = y;
+    this.structureImg = structureImg;
+    this.x = 0;
+    this.y = 0;
     this.ctx = ctx;
-    this.isContact = isContact;
-    this.contactColor = "transparent";
-    this.size = 50;
+    this.isContact = false;
+    this.size = 0;
     this.user = user;
+    this.structureImg = null;
     this.draw = this.draw.bind(this);
     this.update = this.update.bind(this);
     this.getDistance = this.getDistance.bind(this);
@@ -33,25 +32,42 @@ export default class Structure {
   }
 
   private draw() {
-    if (this.ctx) {
+    if (this.ctx && this.structureImg) {
+      this.ctx.save();
       this.ctx.beginPath();
-      this.ctx.arc(this.x, this.y, 50, 0, Math.PI * 2);
-      this.ctx.fillStyle = "green";
-      this.ctx.fill();
-      this.ctx.strokeStyle = this.contactColor;
-      this.ctx.stroke();
-      this.ctx.lineWidth = 5;
+      if (this.ctx.canvas.width < this.ctx.canvas.height) {
+        this.size = this.ctx.canvas.width / 11;
+        this.ctx.drawImage(
+          this.structureImg,
+          0,
+          0,
+          500,
+          500,
+          this.x - this.size,
+          this.y - this.size,
+          this.ctx.canvas.width / 5.5,
+          this.ctx.canvas.width / 5.5
+        );
+      } else {
+        this.size = this.ctx.canvas.height / 11;
+        this.ctx.drawImage(
+          this.structureImg,
+          0,
+          0,
+          500,
+          500,
+          this.x - this.size,
+          this.y - this.size,
+          this.ctx.canvas.height / 5.5,
+          this.ctx.canvas.height / 5.5
+        );
+      }
+      this.ctx.restore();
     }
   }
 
   public update() {
-    if (this.ctx) {
-      if (this.isContact) {
-        this.contactColor = "red";
-      } else {
-        this.contactColor = "transparent";
-      }
-
+    if (this.ctx && this.structureImg) {
       switch (this.name) {
         case "work":
           this.x = this.ctx.canvas.width * 0.9;
@@ -59,11 +75,11 @@ export default class Structure {
           break;
         case "lecture":
           this.x = this.ctx.canvas.width * 0.1;
-          this.y = this.ctx.canvas.height * 0.4;
+          this.y = this.ctx.canvas.height * 0.6;
           break;
         case "about":
           this.x = this.ctx.canvas.width * 0.5;
-          this.y = this.ctx.canvas.height * 0.9;
+          this.y = this.ctx.canvas.height * 0.85;
           break;
         case "fromWork":
           this.x = this.ctx.canvas.width + this.ctx.canvas.width * 0.1;
@@ -71,11 +87,11 @@ export default class Structure {
           break;
         case "fromLecture":
           this.x = -this.ctx.canvas.width + this.ctx.canvas.width * 0.9;
-          this.y = this.ctx.canvas.height * 0.4;
+          this.y = this.ctx.canvas.height * 0.6;
           break;
         case "fromAbout":
           this.x = this.ctx.canvas.width * 0.5;
-          this.y = this.ctx.canvas.height + this.ctx.canvas.height * 0.1;
+          this.y = this.ctx.canvas.height + this.ctx.canvas.height * 0.15;
           break;
         default:
           break;
@@ -91,8 +107,26 @@ export default class Structure {
     );
     if (targetDistance <= this.user.getState().size + this.size) {
       this.isContact = true;
+      if (
+        this.name !== "fromWork" &&
+        this.name !== "fromLecture" &&
+        this.name !== "fromAbout"
+      ) {
+        this.structureImg = document.getElementById(`${this.name}_focus`);
+      } else {
+        this.structureImg = document.getElementById(`home_focus`);
+      }
     } else {
       this.isContact = false;
+      if (
+        this.name !== "fromWork" &&
+        this.name !== "fromLecture" &&
+        this.name !== "fromAbout"
+      ) {
+        this.structureImg = document.getElementById(`${this.name}`);
+      } else {
+        this.structureImg = document.getElementById(`home`);
+      }
     }
   }
 

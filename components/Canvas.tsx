@@ -7,6 +7,7 @@ import { insertTarget, positionManipulator } from "../utils";
 
 const CanvasS = styled.canvas`
   background: url("/background.png") center/cover no-repeat fixed;
+  overflow: hidden;
 `;
 
 export default function Canvas(props: any) {
@@ -14,62 +15,51 @@ export default function Canvas(props: any) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas = canvasRef.current;
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
-  const [spriteImg, setSpriteImg] = useState<HTMLImageElement | null>(null);
+  const [spriteImg, setSpriteImg] = useState<{
+    myImg?: HTMLElement | null;
+    workImg?: HTMLElement | null;
+    lectureImg?: HTMLElement | null;
+    aboutImg?: HTMLElement | null;
+    homeImg?: HTMLElement | null;
+  }>({});
 
   // Items
   const user: User = new User(
-    spriteImg,
+    spriteImg?.myImg,
     windowSize.width / 2,
     windowSize.height / 2,
     ctx
   );
   // into
-  const work: Structure = new Structure(
-    "work",
-    windowSize.width * 0.9, // initial position
-    windowSize.height * 0.3, // initial position
-    false,
-    ctx,
-    user
-  );
+  const work: Structure = new Structure("work", spriteImg?.workImg, ctx, user);
   const lecture: Structure = new Structure(
     "lecture",
-    windowSize.width * 0.1, // initial position
-    windowSize.height * 0.4, // initial position
-    false,
+    spriteImg?.lectureImg,
     ctx,
     user
   );
   const about: Structure = new Structure(
     "about",
-    windowSize.width * 0.5, // initial position
-    windowSize.height * 0.9, // initial position
-    false,
+    spriteImg?.aboutImg,
     ctx,
     user
   );
   // back home
   const fromWork: Structure = new Structure(
     "fromWork",
-    windowSize.width + windowSize.width * 0.1, // initial position
-    windowSize.height * 0.3, // initial position
-    false,
+    spriteImg?.homeImg,
     ctx,
     user
   );
   const fromLecture: Structure = new Structure(
     "fromLecture",
-    -windowSize.width + windowSize.width * 0.9, // initial position
-    windowSize.height * 0.4, // initial position
-    false,
+    spriteImg?.homeImg,
     ctx,
     user
   );
   const fromAbout: Structure = new Structure(
     "fromAbout",
-    windowSize.width * 0.5, // initial position
-    windowSize.height + windowSize.height * 0.1, // initial position
-    false,
+    spriteImg?.homeImg,
     ctx,
     user
   );
@@ -107,9 +97,14 @@ export default function Canvas(props: any) {
   };
 
   useEffect(() => {
-    const myImg = new Image();
-    myImg.src = "/left_me.png";
-    setSpriteImg(myImg);
+    // const myImg = new Image();
+    const myImg = document.getElementById("myImg_left");
+    const workImg = document.getElementById("work");
+    const lectureImg = document.getElementById("lecture");
+    const aboutImg = document.getElementById("about");
+    const homeImg = document.getElementById("home");
+    // myImg.src = "/left_me.png";
+    setSpriteImg({ myImg, workImg, lectureImg, aboutImg, homeImg });
   }, []);
 
   useEffect(() => {

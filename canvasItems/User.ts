@@ -1,5 +1,5 @@
 export default class User {
-  private myImg: HTMLImageElement | null;
+  private myImg: any;
   private x: number; // x axis position
   private y: number; // y axis position
   private size: number; // target size;
@@ -10,7 +10,7 @@ export default class User {
   private ctx: CanvasRenderingContext2D | null;
 
   constructor(
-    myImg: HTMLImageElement | null,
+    myImg: any,
     x: number,
     y: number,
     ctx: CanvasRenderingContext2D | null
@@ -93,11 +93,11 @@ export default class User {
         break;
       case "ArrowRight":
         this.x += 30;
-        if (this.myImg) this.myImg.src = "/right_me.png";
+        this.myImg = document.getElementById("myImg_right");
         break;
       case "ArrowLeft":
         this.x -= 30;
-        if (this.myImg) this.myImg.src = "/left_me.png";
+        this.myImg = document.getElementById("myImg_left");
         break;
       default:
         break;
