@@ -1,14 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
 import User from "../canvasItems/User";
 import Structure from "../canvasItems/Structure";
 import useWindowSize from "../hooks/useWindowSize";
 import { insertTarget, positionManipulator } from "../utils";
-
-const CanvasS = styled.canvas`
-  background: url("/background.png") center/cover no-repeat fixed;
-  overflow: hidden;
-`;
 
 export default function Canvas(props: any) {
   const windowSize = useWindowSize();
@@ -97,13 +91,11 @@ export default function Canvas(props: any) {
   };
 
   useEffect(() => {
-    // const myImg = new Image();
     const myImg = document.getElementById("myImg_left");
     const workImg = document.getElementById("work");
     const lectureImg = document.getElementById("lecture");
     const aboutImg = document.getElementById("about");
     const homeImg = document.getElementById("home");
-    // myImg.src = "/left_me.png";
     setSpriteImg({ myImg, workImg, lectureImg, aboutImg, homeImg });
   }, []);
 
@@ -118,9 +110,11 @@ export default function Canvas(props: any) {
     if (canvas) {
       canvas.width = windowSize.width;
       canvas.height = windowSize.height;
+      canvas.style.background =
+        "url(/background.png) center/cover no-repeat fixed";
       setCtx(canvas.getContext("2d"));
     }
   }, [windowSize]);
 
-  return <CanvasS ref={canvasRef} {...props} />;
+  return <canvas ref={canvasRef} {...props} />;
 }

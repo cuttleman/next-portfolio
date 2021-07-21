@@ -138,21 +138,33 @@ export default class Structure {
         switch (this.name) {
           case "work":
             this.user.moveViewport(-XDISTANCE, 0);
+            this.ctx.canvas.style.background =
+              "url(/surface.png) center/cover no-repeat fixed";
             break;
           case "lecture":
             this.user.moveViewport(XDISTANCE, 0);
+            this.ctx.canvas.style.background =
+              "url(/ship.png) center/cover no-repeat fixed";
             break;
           case "about":
             this.user.moveViewport(0, -YDISTANCE);
+            this.ctx.canvas.style.background =
+              "url(/deep.png) center/cover no-repeat fixed";
             break;
           case "fromWork":
             this.user.moveViewport(XDISTANCE, 0);
+            this.ctx.canvas.style.background =
+              "url(/background.png) center/cover no-repeat fixed";
             break;
           case "fromLecture":
             this.user.moveViewport(-XDISTANCE, 0);
+            this.ctx.canvas.style.background =
+              "url(/background.png) center/cover no-repeat fixed";
             break;
           case "fromAbout":
             this.user.moveViewport(0, YDISTANCE);
+            this.ctx.canvas.style.background =
+              "url(/background.png) center/cover no-repeat fixed";
             break;
           default:
             break;

@@ -17,6 +17,10 @@ export default function PreLoad() {
       <img id="work_focus" src="/work_focus.png" alt="" />
       <img id="home" src="/home.png" alt="" />
       <img id="home_focus" src="/home_focus.png" alt="" />
+      <img id="background" src="/background.png" alt="" />
+      <img id="surface" src="/surface.png" alt="" />
+      <img id="ship" src="/ship.png" alt="" />
+      <img id="deep" src="/deep.png" alt="" />
     </Container>
   );
 }
