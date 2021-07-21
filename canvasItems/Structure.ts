@@ -1,23 +1,18 @@
 import User from "./User";
 
 export default class Structure {
-  private name: string;
-  private structureImg: any;
-  private x: number; // target position x axis
-  private y: number; // target position y axis
-  private isContact: boolean;
-  private size: number; // structure size
-  private ctx: CanvasRenderingContext2D | null;
-  private user: User;
+  protected x: number; // target position x axis
+  protected y: number; // target position y axis
+  protected structureImg: any;
+  protected isContact: boolean;
+  protected size: number; // structure size
 
   constructor(
-    name: string,
-    structureImg: any,
-    ctx: CanvasRenderingContext2D | null,
-    user: User
+    protected name: string,
+    protected ctx: CanvasRenderingContext2D | null,
+    protected user: User
   ) {
     this.name = name;
-    this.structureImg = structureImg;
     this.x = 0;
     this.y = 0;
     this.ctx = ctx;
@@ -25,13 +20,9 @@ export default class Structure {
     this.size = 0;
     this.user = user;
     this.structureImg = null;
-    this.draw = this.draw.bind(this);
-    this.update = this.update.bind(this);
-    this.getDistance = this.getDistance.bind(this);
-    this.insertPage = this.insertPage.bind(this);
   }
 
-  private draw() {
+  protected draw() {
     if (this.ctx && this.structureImg) {
       this.ctx.save();
       this.ctx.beginPath();
@@ -67,17 +58,17 @@ export default class Structure {
   }
 
   public update() {
-    if (this.ctx && this.structureImg) {
+    if (this.ctx) {
       switch (this.name) {
-        case "work":
+        case "toWork":
           this.x = this.ctx.canvas.width * 0.9;
           this.y = this.ctx.canvas.height * 0.3;
           break;
-        case "lecture":
+        case "toLecture":
           this.x = this.ctx.canvas.width * 0.1;
           this.y = this.ctx.canvas.height * 0.6;
           break;
-        case "about":
+        case "toAbout":
           this.x = this.ctx.canvas.width * 0.5;
           this.y = this.ctx.canvas.height * 0.85;
           break;
@@ -98,9 +89,10 @@ export default class Structure {
       }
     }
     this.draw();
+    this.getDistance();
   }
 
-  public getDistance() {
+  protected getDistance() {
     const targetDistance = Math.sqrt(
       Math.pow(this.user.getState().x - this.x, 2) +
         Math.pow(this.user.getState().y - this.y, 2)
@@ -112,9 +104,9 @@ export default class Structure {
         this.name !== "fromLecture" &&
         this.name !== "fromAbout"
       ) {
-        this.structureImg = document.getElementById(`${this.name}_focus`);
+        this.structureImg = document.getElementById(`${this.name}Focus`);
       } else {
-        this.structureImg = document.getElementById(`home_focus`);
+        this.structureImg = document.getElementById(`toHomeFocus`);
       }
     } else {
       this.isContact = false;
@@ -125,7 +117,7 @@ export default class Structure {
       ) {
         this.structureImg = document.getElementById(`${this.name}`);
       } else {
-        this.structureImg = document.getElementById(`home`);
+        this.structureImg = document.getElementById(`toHome`);
       }
     }
   }
@@ -136,41 +128,39 @@ export default class Structure {
         const XDISTANCE = this.ctx.canvas.width;
         const YDISTANCE = this.ctx.canvas.height;
         switch (this.name) {
-          case "work":
+          case "toWork":
             this.user.moveViewport(-XDISTANCE, 0);
             this.ctx.canvas.style.background =
-              "url(/surface.png) center/cover no-repeat fixed";
+              "url(/work_background.png) center/cover no-repeat fixed";
             break;
-          case "lecture":
+          case "toLecture":
             this.user.moveViewport(XDISTANCE, 0);
             this.ctx.canvas.style.background =
-              "url(/ship.png) center/cover no-repeat fixed";
+              "url(/lecture_background.png) center/cover no-repeat fixed";
             break;
-          case "about":
+          case "toAbout":
             this.user.moveViewport(0, -YDISTANCE);
             this.ctx.canvas.style.background =
-              "url(/deep.png) center/cover no-repeat fixed";
+              "url(/about_background.png) center/cover no-repeat fixed";
             break;
           case "fromWork":
             this.user.moveViewport(XDISTANCE, 0);
             this.ctx.canvas.style.background =
-              "url(/background.png) center/cover no-repeat fixed";
+              "url(/home_background.png) center/cover no-repeat fixed";
             break;
           case "fromLecture":
             this.user.moveViewport(-XDISTANCE, 0);
             this.ctx.canvas.style.background =
-              "url(/background.png) center/cover no-repeat fixed";
+              "url(/home_background.png) center/cover no-repeat fixed";
             break;
           case "fromAbout":
             this.user.moveViewport(0, YDISTANCE);
             this.ctx.canvas.style.background =
-              "url(/background.png) center/cover no-repeat fixed";
+              "url(/home_background.png) center/cover no-repeat fixed";
             break;
           default:
             break;
         }
-        // this.ctx.canvas.style.backgroundImage =
-        //   "url(https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg)";
       }
     }
   }

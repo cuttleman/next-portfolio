@@ -2,61 +2,35 @@ import { useEffect, useRef, useState } from "react";
 import User from "../canvasItems/User";
 import Structure from "../canvasItems/Structure";
 import useWindowSize from "../hooks/useWindowSize";
-import { insertTarget, positionManipulator } from "../utils";
+import { insertTarget, positionManipulator, randomGenerator } from "../utils";
+import LinkStructure from "../canvasItems/LinkStructure";
+import Bubble from "../canvasItems/Bubble";
 
 export default function Canvas(props: any) {
   const windowSize = useWindowSize();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvas = canvasRef.current;
   const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null);
-  const [spriteImg, setSpriteImg] = useState<{
-    myImg?: HTMLElement | null;
-    workImg?: HTMLElement | null;
-    lectureImg?: HTMLElement | null;
-    aboutImg?: HTMLElement | null;
-    homeImg?: HTMLElement | null;
-  }>({});
 
   // Items
-  const user: User = new User(
-    spriteImg?.myImg,
-    windowSize.width / 2,
-    windowSize.height / 2,
-    ctx
-  );
-  // into
-  const work: Structure = new Structure("work", spriteImg?.workImg, ctx, user);
-  const lecture: Structure = new Structure(
-    "lecture",
-    spriteImg?.lectureImg,
+  const user: User = new User(ctx);
+  // Items(into)
+  const toWork: Structure = new Structure("toWork", ctx, user);
+  const toLecture: Structure = new Structure("toLecture", ctx, user);
+  const toAbout: Structure = new Structure("toAbout", ctx, user);
+  // Items(link)
+  const work1: LinkStructure = new LinkStructure(
+    "work1",
     ctx,
-    user
+    user,
+    "https://jeokdanghi-relationship.com/"
   );
-  const about: Structure = new Structure(
-    "about",
-    spriteImg?.aboutImg,
-    ctx,
-    user
-  );
-  // back home
-  const fromWork: Structure = new Structure(
-    "fromWork",
-    spriteImg?.homeImg,
-    ctx,
-    user
-  );
-  const fromLecture: Structure = new Structure(
-    "fromLecture",
-    spriteImg?.homeImg,
-    ctx,
-    user
-  );
-  const fromAbout: Structure = new Structure(
-    "fromAbout",
-    spriteImg?.homeImg,
-    ctx,
-    user
-  );
+  // Items(back home)
+  const fromWork: Structure = new Structure("fromWork", ctx, user);
+  const fromLecture: Structure = new Structure("fromLecture", ctx, user);
+  const fromAbout: Structure = new Structure("fromAbout", ctx, user);
+  // Items(background)
+  const bubbles: Bubble[] = [];
 
   // Variables
   let animateId: number;
@@ -73,45 +47,49 @@ export default function Canvas(props: any) {
     animateId = window.requestAnimationFrame(animate);
 
     // main method
-    work.update();
-    lecture.update();
-    about.update();
+    toWork.update();
+    toLecture.update();
+    toAbout.update();
     fromWork.update();
     fromLecture.update();
     fromAbout.update();
+    work1.update();
     user.update();
-
-    // behavior method
-    work.getDistance();
-    lecture.getDistance();
-    about.getDistance();
-    fromWork.getDistance();
-    fromLecture.getDistance();
-    fromAbout.getDistance();
+    bubbles.forEach((bubble) => bubble.update());
   };
 
   useEffect(() => {
-    const myImg = document.getElementById("myImg_left");
-    const workImg = document.getElementById("work");
-    const lectureImg = document.getElementById("lecture");
-    const aboutImg = document.getElementById("about");
-    const homeImg = document.getElementById("home");
-    setSpriteImg({ myImg, workImg, lectureImg, aboutImg, homeImg });
-  }, []);
-
-  useEffect(() => {
-    animate();
+    user.init();
     positionManipulator(user);
-    insertTarget([work, lecture, about, fromWork, fromLecture, fromAbout]);
-    return () => window.cancelAnimationFrame(animateId);
+    insertTarget([
+      toWork,
+      toLecture,
+      toAbout,
+      fromWork,
+      fromLecture,
+      fromAbout,
+      work1,
+    ]);
+    if (ctx) {
+      ctx.canvas.style.background =
+        "url(/home_background.png) center/cover no-repeat fixed";
+
+      for (let i = 0; i < 40; i++) {
+        const x = randomGenerator(user.getState().viewport.x, ctx.canvas.width);
+        const y = ctx.canvas.height;
+        const dy = randomGenerator(1, 3);
+        const size = randomGenerator(2, 40);
+        bubbles.push(new Bubble(x, y, dy, size, ctx, user));
+      }
+    }
+    animate();
+    // return () => window.cancelAnimationFrame(animateId);
   }, [ctx]);
 
   useEffect(() => {
     if (canvas) {
       canvas.width = windowSize.width;
       canvas.height = windowSize.height;
-      canvas.style.background =
-        "url(/background.png) center/cover no-repeat fixed";
       setCtx(canvas.getContext("2d"));
     }
   }, [windowSize]);

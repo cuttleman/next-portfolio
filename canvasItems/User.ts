@@ -1,103 +1,98 @@
 export default class User {
-  private myImg: any;
-  private x: number; // x axis position
-  private y: number; // y axis position
-  private size: number; // target size;
-  private viewport: { x: number; y: number }; // screen visibled user
-  private imgIndex: number;
-  private tickPerFrame: number;
-  private tickCount: number;
-  private ctx: CanvasRenderingContext2D | null;
+  private _x: number;
+  private _y: number;
+  private _myImg: any;
+  private _size: number; // target size;
+  private _viewport: { x: number; y: number }; // screen visibled user
+  private _imgIndex: number;
+  private _tickPerFrame: number;
+  private _tickCount: number;
 
-  constructor(
-    myImg: any,
-    x: number,
-    y: number,
-    ctx: CanvasRenderingContext2D | null
-  ) {
-    this.x = x;
-    this.y = y;
-    this.size = 0;
-    this.ctx = ctx;
-    this.draw = this.draw.bind(this);
-    this.viewport = { x: 0, y: 0 };
-    this.imgIndex = 0;
-    this.tickPerFrame = 8;
-    this.tickCount = 0;
-    this.myImg = myImg;
-    this.update = this.update.bind(this);
-    this.directionControl = this.directionControl.bind(this);
-    this.getState = this.getState.bind(this);
-    this.moveViewport = this.moveViewport.bind(this);
+  constructor(private _ctx: CanvasRenderingContext2D | null) {
+    this._x = 0;
+    this._y = 0;
+    this._myImg = null;
+    this._size = 0;
+    this._ctx = _ctx;
+    this._viewport = { x: 0, y: 0 };
+    this._imgIndex = 0;
+    this._tickPerFrame = 8;
+    this._tickCount = 0;
   }
 
-  private draw() {
-    if (this.ctx && this.myImg) {
-      this.size = this.ctx.canvas.height / 20;
-      this.ctx.beginPath();
+  private _draw() {
+    if (this._ctx && this._myImg) {
+      this._size = this._ctx.canvas.height / 20;
+      this._ctx.beginPath();
       // Area guide
       // this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       // this.ctx.strokeStyle = "#000000";
       // this.ctx.stroke();
-      this.ctx.drawImage(
-        this.myImg,
-        this.imgIndex,
+      this._ctx.drawImage(
+        this._myImg,
+        this._imgIndex,
         0,
         300,
         300,
-        this.x - this.size * 1.3,
-        this.y - this.size * 1.3,
-        this.ctx.canvas.height / 8,
-        this.ctx.canvas.height / 8
+        this._x - this._size * 1.3,
+        this._y - this._size * 1.3,
+        this._ctx.canvas.height / 8,
+        this._ctx.canvas.height / 8
       );
     }
 
     // Sprite speed
-    if (this.tickCount > this.tickPerFrame) {
-      this.tickCount = 0;
-      if (this.imgIndex >= 800) {
-        this.imgIndex = 0;
+    if (this._tickCount > this._tickPerFrame) {
+      this._tickCount = 0;
+      if (this._imgIndex >= 800) {
+        this._imgIndex = 0;
       } else {
-        this.imgIndex += 300;
+        this._imgIndex += 300;
       }
     }
-    this.tickCount++;
+    this._tickCount++;
   }
 
   public update() {
-    if (this.ctx) {
-      if (this.x - this.size < 0 + this.viewport.x) {
-        this.x = this.size + this.viewport.x;
-      } else if (this.x + this.size > this.ctx.canvas.width + this.viewport.x) {
-        this.x = this.ctx.canvas.width + this.viewport.x - this.size;
-      } else if (this.y - this.size < 0 + this.viewport.y) {
-        this.y = this.size + this.viewport.y;
+    if (this._ctx) {
+      if (this._x - this._size < 0 + this._viewport.x) {
+        this._x = this._size + this._viewport.x;
       } else if (
-        this.y + this.size >
-        this.ctx.canvas.height + this.viewport.y
+        this._x + this._size >
+        this._ctx.canvas.width + this._viewport.x
       ) {
-        this.y = this.ctx.canvas.height + this.viewport.y - this.size;
+        this._x = this._ctx.canvas.width + this._viewport.x - this._size;
+      } else if (this._y - this._size < 0 + this._viewport.y) {
+        this._y = this._size + this._viewport.y;
+      } else if (
+        this._y + this._size >
+        this._ctx.canvas.height + this._viewport.y
+      ) {
+        this._y = this._ctx.canvas.height + this._viewport.y - this._size;
       }
-      this.draw();
+      this._draw();
     }
   }
 
   public directionControl(keyEvent: KeyboardEvent) {
-    const { code } = keyEvent;
-    switch (code) {
-      case "ArrowDown":
-        this.y += 30;
+    const { keyCode: keycode } = keyEvent;
+    switch (keycode) {
+      case 40: // up
+        this._y += 30;
         break;
-      case "ArrowUp":
-        this.y -= 30;
+      case 38: // down
+        this._y -= 30;
         break;
-      case "ArrowRight":
-        this.x += 30;
-        this.myImg = document.getElementById("myImg_right");
+      case 39: // right
+        this._x += 30;
+        this._myImg = document.getElementById("myImgRight");
         break;
-      case "ArrowLeft":
-        this.x -= 30;
-        this.myImg = document.getElementById("myImg_left");
+      case 37: // left
+        this._x -= 30;
+        this._myImg = document.getElementById("myImgLeft");
+        break;
+      case 27: // escape -> reload
+        window.location.reload();
         break;
       default:
         break;
@@ -105,14 +100,27 @@ export default class User {
   }
 
   public getState() {
-    return { x: this.x, y: this.y, size: this.size, viewport: this.viewport };
+    return {
+      x: this._x,
+      y: this._y,
+      size: this._size,
+      viewport: this._viewport,
+    };
   }
 
   public moveViewport(x: number, y: number) {
-    if (this.ctx) {
-      this.ctx.translate(x, y);
-      this.viewport.x += -x;
-      this.viewport.y += -y;
+    if (this._ctx) {
+      this._ctx.translate(x, y);
+      this._viewport.x += -x;
+      this._viewport.y += -y;
+    }
+  }
+
+  public init() {
+    if (this._ctx) {
+      this._x = this._ctx.canvas.width / 2;
+      this._y = this._ctx.canvas.height / 2;
+      this._myImg = document.getElementById("myImgLeft");
     }
   }
 }
