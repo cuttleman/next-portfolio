@@ -1,3 +1,4 @@
+import Fish from "./canvasItems/Fish";
 import Structure from "./canvasItems/Structure";
 import User from "./canvasItems/User";
 
@@ -7,7 +8,7 @@ export const positionManipulator = (target: User) => {
   });
 };
 
-export const insertTarget = (targets: Structure[]) => {
+export const insertTarget = (targets: (Structure | Fish)[]) => {
   window.addEventListener("keydown", (e: KeyboardEvent) => {
     const { code } = e;
     if (code === "Enter") {

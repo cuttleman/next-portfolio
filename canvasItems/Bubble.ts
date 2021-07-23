@@ -68,10 +68,10 @@ export default class Bubble {
       }
     }
     this._draw();
-    this.getDistance();
+    this._getDistance();
   }
 
-  public getDistance() {
+  private _getDistance() {
     const targetDistance = Math.sqrt(
       Math.pow(this._user.getState().x - this._x, 2) +
         Math.pow(this._user.getState().y - this._y, 2)

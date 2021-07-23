@@ -3,8 +3,8 @@ import User from "../canvasItems/User";
 import Structure from "../canvasItems/Structure";
 import useWindowSize from "../hooks/useWindowSize";
 import { insertTarget, positionManipulator, randomGenerator } from "../utils";
-import LinkStructure from "../canvasItems/LinkStructure";
 import Bubble from "../canvasItems/Bubble";
+import Fish from "../canvasItems/Fish";
 
 export default function Canvas(props: any) {
   const windowSize = useWindowSize();
@@ -19,12 +19,13 @@ export default function Canvas(props: any) {
   const toLecture: Structure = new Structure("toLecture", ctx, user);
   const toAbout: Structure = new Structure("toAbout", ctx, user);
   // Items(link)
-  const work1: LinkStructure = new LinkStructure(
-    "work1",
+  const fish1: Fish = new Fish(
+    "fish1",
     ctx,
     user,
     "https://jeokdanghi-relationship.com/"
   );
+  const fish2: Fish = new Fish("fish2", ctx, user);
   // Items(back home)
   const fromWork: Structure = new Structure("fromWork", ctx, user);
   const fromLecture: Structure = new Structure("fromLecture", ctx, user);
@@ -53,13 +54,16 @@ export default function Canvas(props: any) {
     fromWork.update();
     fromLecture.update();
     fromAbout.update();
-    work1.update();
+    fish1.update();
+    fish2.update();
     user.update();
     bubbles.forEach((bubble) => bubble.update());
   };
 
   useEffect(() => {
     user.init();
+    fish1.init();
+    fish2.init();
     positionManipulator(user);
     insertTarget([
       toWork,
@@ -68,7 +72,8 @@ export default function Canvas(props: any) {
       fromWork,
       fromLecture,
       fromAbout,
-      work1,
+      fish1,
+      fish2,
     ]);
     if (ctx) {
       ctx.canvas.style.background =
@@ -92,7 +97,7 @@ export default function Canvas(props: any) {
       canvas.height = windowSize.height;
       setCtx(canvas.getContext("2d"));
     }
-  }, [windowSize]);
+  }, [windowSize, canvas]);
 
   return <canvas ref={canvasRef} {...props} />;
 }

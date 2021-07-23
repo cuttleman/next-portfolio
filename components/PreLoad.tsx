@@ -21,6 +21,10 @@ export default function PreLoad() {
       <img id="workBg" src="/work_background.png" alt="" />
       <img id="lectureBg" src="/lecture_background.png" alt="" />
       <img id="aboutBg" src="/about_background.png" alt="" />
+      <img id="leftFish1" src="/left_fish1.png" alt="" />
+      <img id="leftFish2" src="/left_fish2.png" alt="" />
+      <img id="rightFish1" src="/right_fish1.png" alt="" />
+      <img id="rightFish2" src="/right_fish2.png" alt="" />
     </Container>
   );
 }
