@@ -1,5 +1,8 @@
+import { CanvasState } from "myTypes";
+import { Dispatch, SetStateAction } from "react";
+
 export default class User {
-  private _x: number;
+  public _x: number;
   private _y: number;
   private _myImg: any;
   private _size: number; // target size;
@@ -7,27 +10,33 @@ export default class User {
   private _imgIndex: number;
   private _tickPerFrame: number;
   private _tickCount: number;
+  private _ctx: CanvasRenderingContext2D | null;
+  private _setViewport: CanvasState.SetViewport | null;
 
-  constructor(private _ctx: CanvasRenderingContext2D | null) {
+  constructor() {
     this._x = 0;
     this._y = 0;
     this._myImg = null;
     this._size = 0;
-    this._ctx = _ctx;
+    this._ctx = null;
     this._viewport = { x: 0, y: 0 };
     this._imgIndex = 0;
     this._tickPerFrame = 8;
     this._tickCount = 0;
+    this._draw = this._draw.bind(this);
+    this.update = this.update.bind(this);
+    this._reachedEnd = this._reachedEnd.bind(this);
+    this.directionControl = this.directionControl.bind(this);
+    this.getState = this.getState.bind(this);
+    this.moveViewport = this.moveViewport.bind(this);
+    this.init = this.init.bind(this);
+    this._setViewport = null;
   }
 
   private _draw() {
     if (this._ctx && this._myImg) {
       this._size = this._ctx.canvas.height / 20;
       this._ctx.beginPath();
-      // Area guide
-      // this.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      // this.ctx.strokeStyle = "#000000";
-      // this.ctx.stroke();
       this._ctx.drawImage(
         this._myImg,
         this._imgIndex,
@@ -55,6 +64,13 @@ export default class User {
 
   public update() {
     if (this._ctx) {
+      this._reachedEnd();
+      this._draw();
+    }
+  }
+
+  private _reachedEnd() {
+    if (this._ctx) {
       if (this._x - this._size < 0 + this._viewport.x) {
         this._x = this._size + this._viewport.x;
       } else if (
@@ -70,7 +86,6 @@ export default class User {
       ) {
         this._y = this._ctx.canvas.height + this._viewport.y - this._size;
       }
-      this._draw();
     }
   }
 
@@ -91,9 +106,6 @@ export default class User {
         this._x -= 30;
         this._myImg = document.getElementById("myImgLeft");
         break;
-      case 27: // escape -> reload
-        window.location.reload();
-        break;
       default:
         break;
     }
@@ -108,19 +120,31 @@ export default class User {
     };
   }
 
-  public moveViewport(x: number, y: number) {
-    if (this._ctx) {
+  public moveViewport(x: number, y: number, bg: string) {
+    if (this._ctx && this._setViewport) {
       this._ctx.translate(x, y);
       this._viewport.x += -x;
       this._viewport.y += -y;
+      this._ctx.canvas.style.background = `url(/${bg}.png) center/cover no-repeat fixed`;
+      this._setViewport({ x: this._viewport.x, y: this._viewport.y });
     }
   }
 
-  public init() {
-    if (this._ctx) {
-      this._x = this._ctx.canvas.width / 2;
-      this._y = this._ctx.canvas.height / 2;
-      this._myImg = document.getElementById("myImgLeft");
+  public init(
+    x: number,
+    y: number,
+    ctx: CanvasRenderingContext2D | null,
+    initViewport: CanvasState.GetViewport,
+    setViewport: CanvasState.SetViewport
+  ) {
+    this._x = x;
+    this._y = y;
+    this._ctx = ctx;
+    this._myImg = document.getElementById("myImgLeft");
+    this._viewport = initViewport;
+    this._setViewport = setViewport;
+    if (ctx) {
+      ctx.translate(-initViewport.x, -initViewport.y);
     }
   }
 }

@@ -1,7 +1,7 @@
 import { randomGenerator } from "../utils";
 import User from "./User";
 
-export default class Fish {
+export default class MoveStructure {
   private _img: any;
   private _tickCount: number;
   private _tickPerFrame: number;
@@ -12,13 +12,13 @@ export default class Fish {
   private _y: number;
   private _dx: number;
   private _dy: number;
-  constructor(
-    private _type: string,
-    private _ctx: CanvasRenderingContext2D | null,
-    private _user: User,
-    private _link?: string
-  ) {
-    this._type = _type;
+  private _type: string;
+  private _ctx: CanvasRenderingContext2D | null;
+  private _user: User | null;
+  private _link: string;
+
+  constructor() {
+    this._type = "";
     this._x = 0;
     this._y = 0;
     this._dx = -1;
@@ -29,8 +29,9 @@ export default class Fish {
     this._imgIndex = 0;
     this._tickCount = 0;
     this._tickPerFrame = 7;
-    this._ctx = _ctx;
-    this._link = _link;
+    this._ctx = null;
+    this._link = "";
+    this._user = null;
   }
 
   private _draw() {
@@ -95,14 +96,16 @@ export default class Fish {
   }
 
   private _getDistance() {
-    const targetDistance = Math.sqrt(
-      Math.pow(this._user.getState().x - this._x, 2) +
-        Math.pow(this._user.getState().y - this._y, 2)
-    );
-    if (targetDistance <= this._user.getState().size + this._size) {
-      this._isContact = true;
-    } else {
-      this._isContact = false;
+    if (this._user) {
+      const targetDistance = Math.sqrt(
+        Math.pow(this._user.getState().x - this._x, 2) +
+          Math.pow(this._user.getState().y - this._y, 2)
+      );
+      if (targetDistance <= this._user.getState().size + this._size) {
+        this._isContact = true;
+      } else {
+        this._isContact = false;
+      }
     }
   }
 
@@ -114,14 +117,26 @@ export default class Fish {
     }
   }
 
-  public init() {
-    if (this._ctx) {
-      this._x = randomGenerator(
-        this._ctx.canvas.width,
-        this._ctx.canvas.width * 2
-      );
-      this._y = randomGenerator(0, this._ctx.canvas.height);
-      this._img = document.getElementById(`leftFish${this._type.slice(-1)}`);
+  public moreInfo() {
+    if (this._isContact) {
+      console.log(this);
     }
+  }
+
+  public init(
+    type: string,
+    ctx: CanvasRenderingContext2D | null,
+    user: User,
+    link: string
+  ) {
+    if (ctx) {
+      this._x = randomGenerator(ctx.canvas.width, ctx.canvas.width * 2);
+      this._y = randomGenerator(0, ctx.canvas.height);
+    }
+    this._img = document.getElementById(`leftFish${this._type.slice(-1)}`);
+    this._type = type;
+    this._ctx = ctx;
+    this._user = user;
+    this._link = link;
   }
 }

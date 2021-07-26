@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 declare module "myTypes" {
   namespace Common {
     interface LayoutProps {
@@ -13,5 +15,13 @@ declare module "myTypes" {
       width: number;
       height: number;
     }
+  }
+
+  namespace CanvasState {
+    interface GetViewport {
+      x: number;
+      y: number;
+    }
+    type SetViewport = Dispatch<SetStateAction<CanvasState.GetViewport>>;
   }
 }

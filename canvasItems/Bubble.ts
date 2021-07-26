@@ -20,17 +20,19 @@ export default class Bubble {
     this.isContact = false;
     this._ctx = _ctx;
     this._user = _user;
+    this._draw = this._draw.bind(this);
+    this.update = this.update.bind(this);
+    this._getDistance = this._getDistance.bind(this);
   }
 
   private _draw() {
     if (this._ctx) {
       this._ctx.beginPath();
       this._ctx.arc(this._x, this._y, this._size, 0, Math.PI * 2);
-      this._ctx.fillStyle = "#ffffff30";
+      this._ctx.fillStyle = "#ffffff20";
       this._ctx.fill();
       this._ctx.strokeStyle = "#25CCF790";
       this._ctx.stroke();
-      this._ctx.closePath();
       this._ctx.beginPath();
       this._ctx.arc(
         this._x - this._size * 0.4,
@@ -41,7 +43,7 @@ export default class Bubble {
       );
       this._ctx.fillStyle = "#ffffff99";
       this._ctx.fill();
-      this._ctx.closePath();
+      // this._ctx.closePath();
     }
   }
 
@@ -49,7 +51,7 @@ export default class Bubble {
     if (this._ctx) {
       if (this._y + this._size < 0) {
         this._size = 0;
-        this._initSize = randomGenerator(2, 40);
+        this._initSize = randomGenerator(2, this._ctx.canvas.height / 25);
         this._x = randomGenerator(
           this._user.getState().viewport.x,
           this._user.getState().viewport.x + this._ctx.canvas.width
