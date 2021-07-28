@@ -1,5 +1,4 @@
 import { CanvasState } from "myTypes";
-import { Dispatch, SetStateAction } from "react";
 
 export default class User {
   public _x: number;
@@ -11,7 +10,6 @@ export default class User {
   private _tickPerFrame: number;
   private _tickCount: number;
   private _ctx: CanvasRenderingContext2D | null;
-  private _setViewport: CanvasState.SetViewport | null;
 
   constructor() {
     this._x = 0;
@@ -30,7 +28,6 @@ export default class User {
     this.getState = this.getState.bind(this);
     this.moveViewport = this.moveViewport.bind(this);
     this.init = this.init.bind(this);
-    this._setViewport = null;
   }
 
   private _draw() {
@@ -121,12 +118,11 @@ export default class User {
   }
 
   public moveViewport(x: number, y: number, bg: string) {
-    if (this._ctx && this._setViewport) {
+    if (this._ctx) {
       this._ctx.translate(x, y);
       this._viewport.x += -x;
       this._viewport.y += -y;
       this._ctx.canvas.style.background = `url(/${bg}.png) center/cover no-repeat fixed`;
-      this._setViewport({ x: this._viewport.x, y: this._viewport.y });
     }
   }
 
@@ -134,17 +130,15 @@ export default class User {
     x: number,
     y: number,
     ctx: CanvasRenderingContext2D | null,
-    initViewport: CanvasState.GetViewport,
-    setViewport: CanvasState.SetViewport
+    viewport: CanvasState.GetViewport
   ) {
     this._x = x;
     this._y = y;
     this._ctx = ctx;
     this._myImg = document.getElementById("myImgLeft");
-    this._viewport = initViewport;
-    this._setViewport = setViewport;
+    this._viewport = viewport;
     if (ctx) {
-      ctx.translate(-initViewport.x, -initViewport.y);
+      ctx.translate(-viewport.x, -viewport.y);
     }
   }
 }

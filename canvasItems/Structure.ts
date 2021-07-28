@@ -59,33 +59,8 @@ export default class Structure {
 
   public update(x: number, y: number) {
     if (this._ctx) {
-      const newX = Math.ceil(x);
-      const newY = Math.ceil(y);
-      const oldX = Math.ceil(this._x);
-      const oldY = Math.ceil(this._y);
-      if (this._type !== "fromLecture") {
-        if (oldX < newX) {
-          this._x += 1;
-        } else if (oldX > newX) {
-          this._x -= 1;
-        } else if (oldY < newY) {
-          this._y += 1;
-        } else if (oldY > newY) {
-          this._y -= 1;
-        }
-      } else {
-        if (oldX < newX) {
-          this._x += 1;
-        } else if (oldX > newX) {
-          this._x -= 1;
-        } else if (oldY < newY) {
-          this._y += 1;
-        } else if (oldY > newY) {
-          this._y -= 1;
-        }
-      }
-
-      // this._y = y;
+      this._x = x;
+      this._y = y;
       this.draw();
       this.getDistance();
     }

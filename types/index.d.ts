@@ -22,6 +22,6 @@ declare module "myTypes" {
       x: number;
       y: number;
     }
-    type SetViewport = Dispatch<SetStateAction<CanvasState.GetViewport>>;
+    type SetViewport = (x: number, y: number) => void;
   }
 }

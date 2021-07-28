@@ -3,7 +3,6 @@ import User from "./User";
 
 export default class Bubble {
   private _size: number;
-  private isContact: boolean;
   constructor(
     private _x: number,
     private _y: number,
@@ -17,7 +16,6 @@ export default class Bubble {
     this._dy = _dy;
     this._initSize = _initSize;
     this._size = 1;
-    this.isContact = false;
     this._ctx = _ctx;
     this._user = _user;
     this._draw = this._draw.bind(this);

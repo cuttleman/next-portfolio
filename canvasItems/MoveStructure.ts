@@ -1,3 +1,4 @@
+import { CanvasState } from "myTypes";
 import { randomGenerator } from "../utils";
 import User from "./User";
 
@@ -16,6 +17,7 @@ export default class MoveStructure {
   private _ctx: CanvasRenderingContext2D | null;
   private _user: User | null;
   private _link: string;
+  private _viewport: { x: number; y: number }; // screen visibled user
 
   constructor() {
     this._type = "";
@@ -32,6 +34,7 @@ export default class MoveStructure {
     this._ctx = null;
     this._link = "";
     this._user = null;
+    this._viewport = { x: 0, y: 0 };
   }
 
   private _draw() {
@@ -83,10 +86,16 @@ export default class MoveStructure {
 
   private _reachedEdge() {
     if (this._ctx) {
-      if (this._x - this._size < this._ctx.canvas.width) {
-        this._dx = 1;
-      } else if (this._x + this._size > this._ctx.canvas.width * 2) {
-        this._dx = -1;
+      if (
+        this._x - this._size <
+        (this._viewport.x <= 0 ? this._ctx.canvas.width : this._viewport.x)
+      ) {
+        this._dx = 3;
+      } else if (
+        this._x + this._size >
+        (this._viewport.x <= 0 ? this._ctx.canvas.width : this._viewport.x) * 2
+      ) {
+        this._dx = -3;
       } else if (this._y - this._size < 0) {
         this._dy = 0.5;
       } else if (this._y + this._size > this._ctx.canvas.height) {
@@ -127,6 +136,7 @@ export default class MoveStructure {
     type: string,
     ctx: CanvasRenderingContext2D | null,
     user: User,
+    viewport: CanvasState.GetViewport,
     link: string
   ) {
     if (ctx) {
@@ -138,5 +148,6 @@ export default class MoveStructure {
     this._ctx = ctx;
     this._user = user;
     this._link = link;
+    this._viewport = viewport;
   }
 }
