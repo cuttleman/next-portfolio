@@ -22,6 +22,5 @@ declare module "myTypes" {
       x: number;
       y: number;
     }
-    type SetViewport = (x: number, y: number) => void;
   }
 }

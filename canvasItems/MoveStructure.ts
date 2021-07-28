@@ -35,6 +35,47 @@ export default class MoveStructure {
     this._link = "";
     this._user = null;
     this._viewport = { x: 0, y: 0 };
+    this._reachedEdge = this._reachedEdge.bind(this);
+    this._getDistance = this._getDistance.bind(this);
+    this._draw = this._draw.bind(this);
+    this.update = this.update.bind(this);
+    this.insertPage = this.insertPage.bind(this);
+    this.moreInfo = this.moreInfo.bind(this);
+    this.init = this.init.bind(this);
+  }
+
+  private _reachedEdge() {
+    if (this._ctx) {
+      if (
+        this._x - this._size <
+        (this._viewport.x <= 0 ? this._ctx.canvas.width : this._viewport.x)
+      ) {
+        this._dx = 1;
+      } else if (
+        this._x + this._size >
+        (this._viewport.x <= 0 ? this._ctx.canvas.width : this._viewport.x) * 2
+      ) {
+        this._dx = -1;
+      } else if (this._y - this._size < 0) {
+        this._dy = 0.5;
+      } else if (this._y + this._size > this._ctx.canvas.height) {
+        this._dy = -0.5;
+      }
+    }
+  }
+
+  private _getDistance() {
+    if (this._user) {
+      const targetDistance = Math.sqrt(
+        Math.pow(this._user.getState().x - this._x, 2) +
+          Math.pow(this._user.getState().y - this._y, 2)
+      );
+      if (targetDistance <= this._user.getState().size + this._size) {
+        this._isContact = true;
+      } else {
+        this._isContact = false;
+      }
+    }
   }
 
   private _draw() {
@@ -82,40 +123,6 @@ export default class MoveStructure {
     this._draw();
     this._getDistance();
     this._reachedEdge();
-  }
-
-  private _reachedEdge() {
-    if (this._ctx) {
-      if (
-        this._x - this._size <
-        (this._viewport.x <= 0 ? this._ctx.canvas.width : this._viewport.x)
-      ) {
-        this._dx = 3;
-      } else if (
-        this._x + this._size >
-        (this._viewport.x <= 0 ? this._ctx.canvas.width : this._viewport.x) * 2
-      ) {
-        this._dx = -3;
-      } else if (this._y - this._size < 0) {
-        this._dy = 0.5;
-      } else if (this._y + this._size > this._ctx.canvas.height) {
-        this._dy = -0.5;
-      }
-    }
-  }
-
-  private _getDistance() {
-    if (this._user) {
-      const targetDistance = Math.sqrt(
-        Math.pow(this._user.getState().x - this._x, 2) +
-          Math.pow(this._user.getState().y - this._y, 2)
-      );
-      if (targetDistance <= this._user.getState().size + this._size) {
-        this._isContact = true;
-      } else {
-        this._isContact = false;
-      }
-    }
   }
 
   public insertPage() {

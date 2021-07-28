@@ -21,9 +21,31 @@ export default class Structure {
     this._user = null;
     this._imgId = "";
     this._structureImg = null;
+    this._getDistance = this._getDistance.bind(this);
+    this._draw = this._draw.bind(this);
+    this.update = this.update.bind(this);
+    this.insertPage = this.insertPage.bind(this);
+    this.moreInfo = this.moreInfo.bind(this);
+    this.init = this.init.bind(this);
   }
 
-  private draw() {
+  private _getDistance() {
+    if (this._user) {
+      const targetDistance = Math.sqrt(
+        Math.pow(this._user.getState().x - this._x, 2) +
+          Math.pow(this._user.getState().y - this._y, 2)
+      );
+      if (targetDistance <= this._user.getState().size + this._size) {
+        this._isContact = true;
+        this._structureImg = document.getElementById(`${this._imgId}Focus`);
+      } else {
+        this._isContact = false;
+        this._structureImg = document.getElementById(`${this._imgId}`);
+      }
+    }
+  }
+
+  private _draw() {
     if (this._ctx && this._structureImg) {
       this._ctx.beginPath();
       if (this._ctx.canvas.width < this._ctx.canvas.height) {
@@ -61,24 +83,8 @@ export default class Structure {
     if (this._ctx) {
       this._x = x;
       this._y = y;
-      this.draw();
-      this.getDistance();
-    }
-  }
-
-  private getDistance() {
-    if (this._user) {
-      const targetDistance = Math.sqrt(
-        Math.pow(this._user.getState().x - this._x, 2) +
-          Math.pow(this._user.getState().y - this._y, 2)
-      );
-      if (targetDistance <= this._user.getState().size + this._size) {
-        this._isContact = true;
-        this._structureImg = document.getElementById(`${this._imgId}Focus`);
-      } else {
-        this._isContact = false;
-        this._structureImg = document.getElementById(`${this._imgId}`);
-      }
+      this._draw();
+      this._getDistance();
     }
   }
 
@@ -113,6 +119,12 @@ export default class Structure {
     }
   }
 
+  public moreInfo() {
+    if (this._isContact) {
+      console.log(this);
+    }
+  }
+
   public init(
     x: number,
     y: number,
@@ -127,11 +139,5 @@ export default class Structure {
     this._type = type;
     this._ctx = ctx;
     this._user = user;
-  }
-
-  public moreInfo() {
-    if (this._isContact) {
-      console.log(this);
-    }
   }
 }

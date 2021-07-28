@@ -21,13 +21,33 @@ export default class User {
     this._imgIndex = 0;
     this._tickPerFrame = 8;
     this._tickCount = 0;
+    this._reachedEnd = this._reachedEnd.bind(this);
     this._draw = this._draw.bind(this);
     this.update = this.update.bind(this);
-    this._reachedEnd = this._reachedEnd.bind(this);
     this.directionControl = this.directionControl.bind(this);
     this.getState = this.getState.bind(this);
     this.moveViewport = this.moveViewport.bind(this);
     this.init = this.init.bind(this);
+  }
+
+  private _reachedEnd() {
+    if (this._ctx) {
+      if (this._x - this._size < 0 + this._viewport.x) {
+        this._x = this._size + this._viewport.x;
+      } else if (
+        this._x + this._size >
+        this._ctx.canvas.width + this._viewport.x
+      ) {
+        this._x = this._ctx.canvas.width + this._viewport.x - this._size;
+      } else if (this._y - this._size < 0 + this._viewport.y) {
+        this._y = this._size + this._viewport.y;
+      } else if (
+        this._y + this._size >
+        this._ctx.canvas.height + this._viewport.y
+      ) {
+        this._y = this._ctx.canvas.height + this._viewport.y - this._size;
+      }
+    }
   }
 
   private _draw() {
@@ -66,26 +86,6 @@ export default class User {
     }
   }
 
-  private _reachedEnd() {
-    if (this._ctx) {
-      if (this._x - this._size < 0 + this._viewport.x) {
-        this._x = this._size + this._viewport.x;
-      } else if (
-        this._x + this._size >
-        this._ctx.canvas.width + this._viewport.x
-      ) {
-        this._x = this._ctx.canvas.width + this._viewport.x - this._size;
-      } else if (this._y - this._size < 0 + this._viewport.y) {
-        this._y = this._size + this._viewport.y;
-      } else if (
-        this._y + this._size >
-        this._ctx.canvas.height + this._viewport.y
-      ) {
-        this._y = this._ctx.canvas.height + this._viewport.y - this._size;
-      }
-    }
-  }
-
   public directionControl(keyEvent: KeyboardEvent) {
     const { keyCode: keycode } = keyEvent;
     switch (keycode) {
@@ -108,15 +108,6 @@ export default class User {
     }
   }
 
-  public getState() {
-    return {
-      x: this._x,
-      y: this._y,
-      size: this._size,
-      viewport: this._viewport,
-    };
-  }
-
   public moveViewport(x: number, y: number, bg: string) {
     if (this._ctx) {
       this._ctx.translate(x, y);
@@ -124,6 +115,15 @@ export default class User {
       this._viewport.y += -y;
       this._ctx.canvas.style.background = `url(/${bg}.png) center/cover no-repeat fixed`;
     }
+  }
+
+  public getState() {
+    return {
+      x: this._x,
+      y: this._y,
+      size: this._size,
+      viewport: this._viewport,
+    };
   }
 
   public init(
