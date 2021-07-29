@@ -1,17 +1,19 @@
+import Info from "./Info";
 import User from "./User";
 
-export default class Structure {
-  private _x: number; // target position x axis
-  private _y: number; // target position y axis
-  private _structureImg: any;
-  private _imgId: string;
-  private _isContact: boolean;
-  private _size: number; // structure size
-  private _type: string;
-  private _ctx: CanvasRenderingContext2D | null;
+export default class Structure extends Info {
+  protected _x: number; // target position x axis
+  protected _y: number; // target position y axis
+  protected _imgId: string;
+  protected _type: string;
+  protected _ctx: CanvasRenderingContext2D | null;
+  protected _structureImg: any;
+  protected _isContact: boolean;
+  protected _size: number; // structure size: ;
   private _user: User | null;
 
   constructor() {
+    super();
     this._type = "";
     this._x = 0;
     this._y = 0;
@@ -29,7 +31,7 @@ export default class Structure {
     this.init = this.init.bind(this);
   }
 
-  private _getDistance() {
+  protected _getDistance() {
     if (this._user) {
       const targetDistance = Math.sqrt(
         Math.pow(this._user.getState().x - this._x, 2) +
@@ -41,40 +43,33 @@ export default class Structure {
       } else {
         this._isContact = false;
         this._structureImg = document.getElementById(`${this._imgId}`);
+        this._hideInfo();
       }
     }
   }
 
-  private _draw() {
+  protected _draw() {
     if (this._ctx && this._structureImg) {
       this._ctx.beginPath();
+      let viewSize = 0;
       if (this._ctx.canvas.width < this._ctx.canvas.height) {
         this._size = this._ctx.canvas.width / 11;
-        this._ctx.drawImage(
-          this._structureImg,
-          0,
-          0,
-          500,
-          500,
-          this._x - this._size,
-          this._y - this._size,
-          this._ctx.canvas.width / 5.5,
-          this._ctx.canvas.width / 5.5
-        );
+        viewSize = this._ctx.canvas.width / 5.5;
       } else {
         this._size = this._ctx.canvas.height / 11;
-        this._ctx.drawImage(
-          this._structureImg,
-          0,
-          0,
-          500,
-          500,
-          this._x - this._size,
-          this._y - this._size,
-          this._ctx.canvas.height / 5.5,
-          this._ctx.canvas.height / 5.5
-        );
+        viewSize = this._ctx.canvas.height / 5.5;
       }
+      this._ctx.drawImage(
+        this._structureImg,
+        0,
+        0,
+        500,
+        500,
+        this._x - this._size,
+        this._y - this._size,
+        viewSize,
+        viewSize
+      );
       this._ctx.closePath();
     }
   }
@@ -85,6 +80,7 @@ export default class Structure {
       this._y = y;
       this._draw();
       this._getDistance();
+      this._updateInfo();
     }
   }
 
@@ -121,7 +117,11 @@ export default class Structure {
 
   public moreInfo() {
     if (this._isContact) {
-      console.log(this);
+      if (this._isVisible) {
+        this._hideInfo();
+      } else {
+        this._showInfo();
+      }
     }
   }
 
@@ -139,5 +139,6 @@ export default class Structure {
     this._type = type;
     this._ctx = ctx;
     this._user = user;
+    this._initInfo(user, ctx);
   }
 }

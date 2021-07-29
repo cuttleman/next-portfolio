@@ -65,6 +65,7 @@ export default class User {
         this._ctx.canvas.height / 8,
         this._ctx.canvas.height / 8
       );
+      this._ctx.closePath();
     }
 
     // Sprite speed

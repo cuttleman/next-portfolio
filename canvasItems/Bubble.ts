@@ -54,12 +54,16 @@ export default class Bubble {
   private _draw() {
     if (this._ctx) {
       this._ctx.beginPath();
+      this._ctx.lineWidth = 1;
       this._ctx.arc(this._x, this._y, this._goalSize, 0, Math.PI * 2);
       this._ctx.fillStyle = "#ffffff20";
       this._ctx.fill();
       this._ctx.strokeStyle = "#25CCF790";
       this._ctx.stroke();
+      this._ctx.closePath();
+
       this._ctx.beginPath();
+      this._ctx.lineWidth = 1;
       this._ctx.arc(
         this._x - this._goalSize * 0.4,
         this._y - this._goalSize * 0.4,
@@ -69,6 +73,7 @@ export default class Bubble {
       );
       this._ctx.fillStyle = "#ffffff99";
       this._ctx.fill();
+      this._ctx.closePath();
     }
   }
 

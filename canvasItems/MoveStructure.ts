@@ -1,9 +1,12 @@
 import { CanvasState } from "myTypes";
 import { randomGenerator } from "../utils";
+import Info from "./Info";
 import User from "./User";
 
-export default class MoveStructure {
+export default class MoveStructure extends Info {
   private _img: any;
+  private _leftImgId: string;
+  private _rightImgId: string;
   private _tickCount: number;
   private _tickPerFrame: number;
   private _imgIndex: number;
@@ -20,6 +23,7 @@ export default class MoveStructure {
   private _viewport: { x: number; y: number }; // screen visibled user
 
   constructor() {
+    super();
     this._type = "";
     this._x = 0;
     this._y = 0;
@@ -28,6 +32,8 @@ export default class MoveStructure {
     this._size = 0;
     this._isContact = false;
     this._img = null;
+    this._leftImgId = "";
+    this._rightImgId = "";
     this._imgIndex = 0;
     this._tickCount = 0;
     this._tickPerFrame = 7;
@@ -74,6 +80,7 @@ export default class MoveStructure {
         this._isContact = true;
       } else {
         this._isContact = false;
+        this._hideInfo();
       }
     }
   }
@@ -111,18 +118,15 @@ export default class MoveStructure {
     this._x += this._dx;
     this._y += this._dy;
 
-    this._img = document.getElementById(
-      this._type === "fish1"
-        ? this._dx > 0
-          ? "rightFish1"
-          : "leftFish1"
-        : this._dx > 0
-        ? "rightFish2"
-        : "leftFish2"
-    );
+    if (this._dx > 0) {
+      this._img = document.getElementById(this._rightImgId);
+    } else {
+      this._img = document.getElementById(this._leftImgId);
+    }
     this._draw();
     this._getDistance();
     this._reachedEdge();
+    this._updateInfo();
   }
 
   public insertPage() {
@@ -134,13 +138,31 @@ export default class MoveStructure {
   }
 
   public moreInfo() {
+    const rangeX = [1, -1];
+    const rangeY = [0.5, -0.5];
     if (this._isContact) {
-      console.log(this);
+      const randomX = rangeX[Math.floor(Math.random() * 2)];
+      const randomY = rangeY[Math.floor(Math.random() * 2)];
+      this._dx = this._dx === 0 ? randomX : 0;
+      this._dy = this._dy === 0 ? randomY : 0;
+      this._showInfo();
+
+      const conditionForFree = setInterval(() => {
+        if (this._dx === 0 && !this._isContact) {
+          this._dx = randomX;
+          this._dy = randomY;
+          clearInterval(conditionForFree);
+        } else if (this._dx !== 0) {
+          clearInterval(conditionForFree);
+        }
+      }, 3000);
     }
   }
 
   public init(
     type: string,
+    leftImgId: string,
+    rightImgId: string,
     ctx: CanvasRenderingContext2D | null,
     user: User,
     viewport: CanvasState.GetViewport,
@@ -150,11 +172,13 @@ export default class MoveStructure {
       this._x = randomGenerator(ctx.canvas.width, ctx.canvas.width * 2);
       this._y = randomGenerator(0, ctx.canvas.height);
     }
-    this._img = document.getElementById(`leftFish${this._type.slice(-1)}`);
     this._type = type;
+    this._leftImgId = leftImgId;
+    this._rightImgId = rightImgId;
     this._ctx = ctx;
     this._user = user;
     this._link = link;
     this._viewport = viewport;
+    this._initInfo(user, ctx);
   }
 }

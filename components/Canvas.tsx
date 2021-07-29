@@ -4,6 +4,7 @@ import Structure from "../canvasItems/Structure";
 import MoveStructure from "../canvasItems/MoveStructure";
 import Bubble from "../canvasItems/Bubble";
 import { keydownHandler, randomGenerator, resizeHandler } from "../utils";
+import LinkStructure from "../canvasItems/LinkStructure";
 
 export default function Canvas(props: any) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -14,13 +15,17 @@ export default function Canvas(props: any) {
   const toWork: Structure = new Structure();
   const toLecture: Structure = new Structure();
   const toAbout: Structure = new Structure();
-  // Items(link)
-  const fish1: MoveStructure = new MoveStructure();
-  const fish2: MoveStructure = new MoveStructure();
   // Items(back home)
   const fromWork: Structure = new Structure();
   const fromLecture: Structure = new Structure();
   const fromAbout: Structure = new Structure();
+  // Items(work link)
+  const fish1: MoveStructure = new MoveStructure();
+  const fish2: MoveStructure = new MoveStructure();
+  // Items(lecture link)
+  const lectureFrame1: LinkStructure = new LinkStructure();
+  const lectureFrame2: LinkStructure = new LinkStructure();
+  const lectureFrame3: LinkStructure = new LinkStructure();
 
   // Variables
   let animateId: number;
@@ -49,6 +54,18 @@ export default function Canvas(props: any) {
       fromWork.update(screenXMax + screenXMax * 0.1, screenYMax * 0.3);
       fromLecture.update(-screenXMax + screenXMax * 0.9, screenYMax * 0.6);
       fromAbout.update(screenXMax * 0.5, screenYMax + screenYMax * 0.1);
+      lectureFrame1.update(
+        -screenXMax + (screenXMax / 5) * 1,
+        (screenYMax / 3) * 1
+      );
+      lectureFrame2.update(
+        -screenXMax + (screenXMax / 5) * 2,
+        (screenYMax / 3) * 1
+      );
+      lectureFrame3.update(
+        -screenXMax + (screenXMax / 5) * 3,
+        (screenYMax / 3) * 1
+      );
       fish1.update();
       fish2.update();
       user.update();
@@ -129,21 +146,52 @@ export default function Canvas(props: any) {
         ctx,
         user
       );
-
       fish1.init(
-        "fish1",
+        "relationship",
+        "leftFish1",
+        "rightFish1",
         ctx,
         user,
         viewport,
         "https://jeokdanghi-relationship.com/"
       );
       fish2.init(
-        "fish2",
+        "bangguseok",
+        "leftFish2",
+        "rightFish2",
         ctx,
         user,
         viewport,
-        "https://jeokdanghi-relationship.com/"
+        "https://bangguseokmuseum2.com/"
       );
+      lectureFrame1.init(
+        -screenXMax + (screenXMax / 5) * 1,
+        (screenYMax / 3) * 1,
+        "toHome",
+        "kakaoUi",
+        ctx,
+        user,
+        "https://nomad-learn.github.io/clone-kakaotalk/friends.html"
+      );
+      lectureFrame2.init(
+        -screenXMax + (screenXMax / 5) * 2,
+        (screenYMax / 3) * 1,
+        "toHome",
+        "wetube",
+        ctx,
+        user,
+        "https://clonewetube.herokuapp.com/"
+      );
+      lectureFrame3.init(
+        -screenXMax + (screenXMax / 5) * 3,
+        (screenYMax / 3) * 1,
+        "toHome",
+        "popcornTime",
+        ctx,
+        user,
+        "https://determined-hypatia-502a08.netlify.app/"
+      );
+
       for (let i = 0; i < 40; i++) {
         const x = randomGenerator(
           viewport.x,
@@ -181,6 +229,9 @@ export default function Canvas(props: any) {
         fromAbout,
         fish1,
         fish2,
+        lectureFrame1,
+        lectureFrame2,
+        lectureFrame3,
       ])
     );
 
@@ -199,6 +250,9 @@ export default function Canvas(props: any) {
           fromAbout,
           fish1,
           fish2,
+          lectureFrame1,
+          lectureFrame2,
+          lectureFrame3,
         ])
       );
 
