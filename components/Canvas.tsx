@@ -22,6 +22,9 @@ export default function Canvas(props: any) {
   // Items(work link)
   const fish1: MoveStructure = new MoveStructure();
   const fish2: MoveStructure = new MoveStructure();
+  const fish3: MoveStructure = new MoveStructure();
+  const fish4: MoveStructure = new MoveStructure();
+  const fish5: MoveStructure = new MoveStructure();
   // Items(lecture link)
   const lectureFrame1: LinkStructure = new LinkStructure();
   const lectureFrame2: LinkStructure = new LinkStructure();
@@ -68,6 +71,9 @@ export default function Canvas(props: any) {
       );
       fish1.update();
       fish2.update();
+      fish3.update();
+      fish4.update();
+      fish5.update();
       user.update();
       bubbles.forEach((bubble) => bubble.update());
     }
@@ -150,6 +156,8 @@ export default function Canvas(props: any) {
         "relationship",
         "leftFish1",
         "rightFish1",
+        500,
+        4,
         ctx,
         user,
         viewport,
@@ -159,10 +167,45 @@ export default function Canvas(props: any) {
         "bangguseok",
         "leftFish2",
         "rightFish2",
+        500,
+        4,
         ctx,
         user,
         viewport,
         "https://bangguseokmuseum2.com/"
+      );
+      fish3.init(
+        "wordusink",
+        "leftFish3",
+        "rightFish3",
+        500,
+        4,
+        ctx,
+        user,
+        viewport,
+        "https://play.google.com/store/apps/details?id=com.mestus.wordusink"
+      );
+      fish4.init(
+        "cuttlefishss",
+        "leftFish4",
+        "rightFish4",
+        500,
+        4,
+        ctx,
+        user,
+        viewport,
+        "https://mestuss.github.io/cuttlefishss/"
+      );
+      fish5.init(
+        "catchMind",
+        "leftFish5",
+        "rightFish5",
+        500,
+        4,
+        ctx,
+        user,
+        viewport,
+        "https://dogsimsul-1020.herokuapp.com/"
       );
       lectureFrame1.init(
         -screenXMax + (screenXMax / 5) * 1,
@@ -229,6 +272,9 @@ export default function Canvas(props: any) {
         fromAbout,
         fish1,
         fish2,
+        fish3,
+        fish4,
+        fish5,
         lectureFrame1,
         lectureFrame2,
         lectureFrame3,
@@ -250,6 +296,9 @@ export default function Canvas(props: any) {
           fromAbout,
           fish1,
           fish2,
+          fish3,
+          fish4,
+          fish5,
           lectureFrame1,
           lectureFrame2,
           lectureFrame3,

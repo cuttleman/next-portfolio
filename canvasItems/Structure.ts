@@ -139,6 +139,6 @@ export default class Structure extends Info {
     this._type = type;
     this._ctx = ctx;
     this._user = user;
-    this._initInfo(user, ctx, this._type);
+    this._initInfo(user, ctx, type);
   }
 }

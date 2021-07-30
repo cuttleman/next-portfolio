@@ -22,9 +22,15 @@ export default function PreLoad() {
       <img id="lectureBg" src="/lecture_background.png" alt="" />
       <img id="aboutBg" src="/about_background.png" alt="" />
       <img id="leftFish1" src="/left_fish1.png" alt="" />
-      <img id="leftFish2" src="/left_fish2.png" alt="" />
       <img id="rightFish1" src="/right_fish1.png" alt="" />
+      <img id="leftFish2" src="/left_fish2.png" alt="" />
       <img id="rightFish2" src="/right_fish2.png" alt="" />
+      <img id="leftFish3" src="/left_fish3.png" alt="" />
+      <img id="rightFish3" src="/right_fish3.png" alt="" />
+      <img id="leftFish4" src="/left_fish4.png" alt="" />
+      <img id="rightFish4" src="/right_fish4.png" alt="" />
+      <img id="leftFish5" src="/left_fish5.png" alt="" />
+      <img id="rightFish5" src="/right_fish5.png" alt="" />
     </Container>
   );
 }
