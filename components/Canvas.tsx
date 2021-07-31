@@ -5,6 +5,7 @@ import MoveStructure from "../canvasItems/MoveStructure";
 import Bubble from "../canvasItems/Bubble";
 import { keydownHandler, randomGenerator, resizeHandler } from "../utils";
 import LinkStructure from "../canvasItems/LinkStructure";
+import Rock from "../canvasItems/Rock";
 
 export default function Canvas(props: any) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -29,6 +30,8 @@ export default function Canvas(props: any) {
   const lectureFrame1: LinkStructure = new LinkStructure();
   const lectureFrame2: LinkStructure = new LinkStructure();
   const lectureFrame3: LinkStructure = new LinkStructure();
+
+  const aboutRock: Rock = new Rock();
 
   // Variables
   let animateId: number;
@@ -74,6 +77,7 @@ export default function Canvas(props: any) {
       fish3.update();
       fish4.update();
       fish5.update();
+      aboutRock.update();
       user.update();
       bubbles.forEach((bubble) => bubble.update());
     }
@@ -234,6 +238,7 @@ export default function Canvas(props: any) {
         user,
         "https://determined-hypatia-502a08.netlify.app/"
       );
+      aboutRock.init(screenXMax * 0.1, screenYMax + screenYMax * 1, ctx, user);
 
       for (let i = 0; i < 40; i++) {
         const x = randomGenerator(
