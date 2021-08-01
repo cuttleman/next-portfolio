@@ -1,11 +1,12 @@
 import { CanvasState } from "myTypes";
 import MoveStructure from "./canvasItems/MoveStructure";
 import Structure from "./canvasItems/Structure";
+import RisingStructure from "./canvasItems/RisingStructure";
 import User from "./canvasItems/User";
 
 export const keydownHandler = (
   user: User,
-  targets: (MoveStructure | Structure)[]
+  targets: (MoveStructure | Structure | RisingStructure)[]
 ) => {
   return function (e: KeyboardEvent) {
     const { code } = e;

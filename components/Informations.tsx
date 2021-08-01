@@ -31,6 +31,29 @@ export default function Informations() {
       <div id="toAboutInfo">
         <p>Lorem ipsum dolor s</p>
       </div>
+      <div id="aboutInfo">
+        <p>
+          안녕하세요. <br />
+          웹개발에 입문한지 2년차가
+          <br /> 되어가는 이준오입니다
+          <br /> <br /> 자바스크립트를 주력언어로 사용합니다
+          <br /> <br /> Canvas에 관심이 생겨
+          <br /> 유튜브 Interactive Developer님 영상과
+          <br /> Cris Courses 웹사이트 강의로 공부
+          <br /> 하고 있습니다
+          <br /> <br /> 개인적인 공부는 Nomad Coders 강의와
+          <br /> 구글링을 통해서 하고 있습니다
+          <br /> <br /> 앞으로 공부하고 싶은 기술은
+          <br /> GSAP, three.js, nest.js 이고,
+          <br /> <br /> 주력언어를 강화시키기 위해 C++ 를 학습할
+          <br />
+          예정입니다
+          <br /> <br /> 관심 분야는
+          <br /> 교육관련 앱, 웹 개발
+          <br /> 서비스 앱, 웹 개발
+          <br /> 입니다
+        </p>
+      </div>
     </Container>
   );
 }

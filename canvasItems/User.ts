@@ -1,7 +1,7 @@
 import { CanvasState } from "myTypes";
 
 export default class User {
-  public _x: number;
+  private _x: number;
   private _y: number;
   private _myImg: any;
   private _size: number; // target size;

@@ -31,6 +31,8 @@ export default function PreLoad() {
       <img id="rightFish4" src="/right_fish4.png" alt="" />
       <img id="leftFish5" src="/left_fish5.png" alt="" />
       <img id="rightFish5" src="/right_fish5.png" alt="" />
+      <img id="me" src="/me.png" alt="" />
+      <img id="meFocus" src="/me_focus.png" alt="" />
     </Container>
   );
 }
