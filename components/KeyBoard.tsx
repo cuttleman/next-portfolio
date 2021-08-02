@@ -4,67 +4,43 @@ import styled from "styled-components";
 const Container = styled.div`
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 30%;
-  height: 20%;
+  right: 0;
   background-color: #00000090;
-  border-top-right-radius: 10px;
-  padding: 0 15px;
+  border-top-left-radius: 10px;
+  padding: 15px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
 `;
 
 const Content = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  grid-gap: 5px;
-  margin: 0 10px;
-  & > div {
-    cursor: pointer;
-    border-radius: 5px;
-    padding: 5px;
-    border: 2px solid #00000096;
-  }
+  margin: 3px 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
-const SpaceEnter = styled.div<{ isPressed: boolean }>`
-  width: 100%;
-  height: 100%;
-  background-color: ${(props) => (props.isPressed ? "#ffffff80" : "#ffffff")};
+const Key = styled.div<{ isPressed: boolean }>`
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px;
+  border: 3px solid ${(props) => (props.isPressed ? "white" : "gray")};
+  background-color: transparent;
+  color: ${(props) => (props.isPressed ? "white" : "gray")};
   text-align: center;
-  &:first-child {
-    grid-column: 2 / span 2;
-    grid-row: 1;
-  }
-  &:last-child {
-    grid-column: 1 / span 3;
-    grid-row: 2;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const Arrow = styled.div<{ isPressed: boolean }>`
-  width: 100%;
-  height: 100%;
-  background-color: ${(props) => (props.isPressed ? "#ffffff80" : "#ffffff")};
-  text-align: center;
-  &:nth-child(1) {
-    grid-column: 1;
-    grid-row: 2;
-  }
-  &:nth-child(2) {
-    grid-column: 3 / 4;
-    grid-row: 2;
-  }
-  &:nth-child(3) {
-    grid-column: 2 / span 1;
-    grid-row: 1;
-  }
-  &:nth-child(4) {
-    grid-column: 2 / 3;
-    grid-row: 2;
+const Description = styled.div`
+  color: gray;
+  margin-right: 5px;
+  &::after {
+    content: " : ";
   }
 `;
 
@@ -113,14 +89,28 @@ export default function KeyBoard() {
   return (
     <Container>
       <Content>
-        <SpaceEnter isPressed={pressed.enter}>Enter</SpaceEnter>
-        <SpaceEnter isPressed={pressed.space}>Space</SpaceEnter>
+        <Description>들어가기 / 확인</Description>
+        <Key isPressed={pressed.enter}>En</Key>
       </Content>
       <Content>
-        <Arrow isPressed={pressed.left}>←</Arrow>
-        <Arrow isPressed={pressed.right}>→</Arrow>
-        <Arrow isPressed={pressed.top}>↑</Arrow>
-        <Arrow isPressed={pressed.bottom}>↓</Arrow>
+        <Description>상세정보보기</Description>
+        <Key isPressed={pressed.space}>Sp</Key>
+      </Content>
+      <Content>
+        <Description>왼쪽으로 이동</Description>
+        <Key isPressed={pressed.left}>L</Key>
+      </Content>
+      <Content>
+        <Description>오른쪽으로 이동</Description>
+        <Key isPressed={pressed.right}>R</Key>
+      </Content>
+      <Content>
+        <Description>위쪽으로 이동</Description>
+        <Key isPressed={pressed.top}>U</Key>
+      </Content>
+      <Content>
+        <Description>아래쪽으로 이동</Description>
+        <Key isPressed={pressed.bottom}>D</Key>
       </Content>
     </Container>
   );

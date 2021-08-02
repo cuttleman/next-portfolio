@@ -55,21 +55,6 @@ export default class MoveStructure extends Info {
     this.init = this.init.bind(this);
   }
 
-  private _drawEnter() {
-    if (this._ctx && this._user) {
-      this._ctx.beginPath();
-      this._ctx.fillStyle = "#ffffff50";
-      this._ctx.fill();
-      this._ctx.fillRect(
-        this._user.getState().x,
-        this._user.getState().y - 100,
-        50,
-        50
-      );
-      this._ctx.closePath();
-    }
-  }
-
   private _reachedEdge() {
     if (this._ctx) {
       const { randomX, randomY } = this._getRandomXY();
@@ -107,7 +92,6 @@ export default class MoveStructure extends Info {
       );
       if (targetDistance <= this._user.getState().size + this._size) {
         this._isContact = true;
-        this._drawEnter();
       } else {
         this._isContact = false;
         this._hideInfo();

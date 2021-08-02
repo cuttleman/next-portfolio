@@ -31,21 +31,6 @@ export default class Structure extends Info {
     this.init = this.init.bind(this);
   }
 
-  protected _drawEnter() {
-    if (this._ctx && this._user) {
-      this._ctx.beginPath();
-      this._ctx.fillStyle = "#ffffff50";
-      this._ctx.fill();
-      this._ctx.fillRect(
-        this._user.getState().x,
-        this._user.getState().y - 100,
-        50,
-        50
-      );
-      this._ctx.closePath();
-    }
-  }
-
   protected _getDistance() {
     if (this._user) {
       const targetDistance = Math.sqrt(
@@ -55,7 +40,6 @@ export default class Structure extends Info {
       if (targetDistance <= this._user.getState().size + this._size) {
         this._isContact = true;
         this._structureImg = document.getElementById(`${this._imgId}Focus`);
-        this._drawEnter();
       } else {
         this._isContact = false;
         this._structureImg = document.getElementById(`${this._imgId}`);

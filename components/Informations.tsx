@@ -6,12 +6,12 @@ const Container = styled.div`
     position: absolute;
     & > p {
       padding: 15px;
-      color: white;
+      color: black;
       max-width: 100%;
       max-height: 100%;
       overflow-y: auto;
       word-break: break-all;
-      background-color: #ffffff70;
+      background-color: #ffffff;
       border-radius: 5px;
     }
   }
@@ -28,7 +28,27 @@ export default function Informations() {
           necessitatibus aperiam.
         </p>
       </div>
+      <div id="fromWorkInfo">
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolor maxime
+          quos nulla voluptate! Hic eveniet fugiat assumenda quis. Voluptatibus,
+          quas unde labore sint adipisci provident qui vel eligendi
+          necessitatibus aperiam.
+        </p>
+      </div>
       <div id="toAboutInfo">
+        <p>Lorem ipsum dolor s</p>
+      </div>
+      <div id="toLectureInfo">
+        <p>Lorem ipsum dolor s</p>
+      </div>
+      <div id="fromLectureInfo">
+        <p>Lorem ipsum dolor s</p>
+      </div>
+      <div id="wetubeInfo">
+        <p>Lorem ipsum dolor s</p>
+      </div>
+      <div id="popcornTimeInfo">
         <p>Lorem ipsum dolor s</p>
       </div>
       <div id="aboutInfo">

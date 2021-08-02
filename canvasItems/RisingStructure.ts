@@ -35,7 +35,6 @@ export default class Rock extends Structure {
       if (targetDistance <= this._user.getState().size + this._size) {
         this._isContact = true;
         this._structureImg = document.getElementById(`${this._imgId}Focus`);
-        super._drawEnter();
       } else {
         this._isContact = false;
         this._structureImg = document.getElementById(`${this._imgId}`);

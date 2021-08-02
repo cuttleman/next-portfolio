@@ -49,14 +49,15 @@ export default class Info {
 
   private _textPosition() {
     if (this._userInfo && this._ctxInfo) {
-      const currentX = this._userInfo.getState().x;
+      const currentX =
+        this._userInfo.getState().viewport.x >= 0
+          ? this._userInfo.getState().x - this._userInfo.getState().viewport.x
+          : this._userInfo.getState().x + this._ctxInfo.canvas.width;
       const currentY =
-        this._userInfo.getState().y - this._userInfo.getState().viewport.y;
-      const screenXCenter =
-        this._userInfo.getState().viewport.x < 0
-          ? this._userInfo.getState().viewport.x / 2
-          : this._userInfo.getState().viewport.x +
-            this._ctxInfo.canvas.width / 2;
+        this._userInfo.getState().viewport.y >= 0
+          ? this._userInfo.getState().y - this._userInfo.getState().viewport.y
+          : this._userInfo.getState().y + this._ctxInfo.canvas.height;
+      const screenXCenter = this._ctxInfo.canvas.width / 2;
       const screenYCenter = this._ctxInfo.canvas.height / 2;
       const boxSize =
         this._ctxInfo.canvas.width > this._ctxInfo.canvas.height
