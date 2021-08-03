@@ -214,7 +214,7 @@ export default function Canvas(props: any) {
       lectureFrame1.init(
         -screenXMax + (screenXMax / 5) * 1,
         (screenYMax / 3) * 1,
-        "toHome",
+        "kakaoUi",
         "kakaoUi",
         ctx,
         user,
@@ -232,7 +232,7 @@ export default function Canvas(props: any) {
       lectureFrame3.init(
         -screenXMax + (screenXMax / 5) * 3,
         (screenYMax / 3) * 1,
-        "toHome",
+        "popcornTime",
         "popcornTime",
         ctx,
         user,
@@ -244,8 +244,7 @@ export default function Canvas(props: any) {
         "me",
         "about",
         ctx,
-        user,
-        "https://determined-hypatia-502a08.netlify.app/"
+        user
       );
 
       for (let i = 0; i < 40; i++) {

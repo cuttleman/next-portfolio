@@ -33,6 +33,10 @@ export default function PreLoad() {
       <img id="rightFish5" src="/right_fish5.png" alt="" />
       <img id="me" src="/me.png" alt="" />
       <img id="meFocus" src="/me_focus.png" alt="" />
+      <img id="popcornTime" src="/popcornTime.png" alt="" />
+      <img id="kakaoUi" src="/kakaoUi.png" alt="" />
+      <img id="popcornTimeFocus" src="/popcornTime.png" alt="" />
+      <img id="kakaoUiFocus" src="/kakaoUi.png" alt="" />
     </Container>
   );
 }

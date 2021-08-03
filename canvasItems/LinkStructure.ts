@@ -97,10 +97,6 @@ export default class LinkStructure extends Structure {
       this._ctx.stroke();
       this._ctx.drawImage(
         this._structureImg,
-        0,
-        0,
-        500,
-        500,
         this._x - this._size + 15,
         this._y - this._size + 15,
         viewSize - 30,
