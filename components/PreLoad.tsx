@@ -33,10 +33,14 @@ export default function PreLoad() {
       <img id="rightFish5" src="/right_fish5.png" alt="" />
       <img id="me" src="/me.png" alt="" />
       <img id="meFocus" src="/me_focus.png" alt="" />
-      <img id="popcornTime" src="/popcornTime.png" alt="" />
+      <img id="nomflix" src="/nomflix.png" alt="" />
+      <img id="nomflixFocus" src="/nomflix.png" alt="" />
       <img id="kakaoUi" src="/kakaoUi.png" alt="" />
-      <img id="popcornTimeFocus" src="/popcornTime.png" alt="" />
       <img id="kakaoUiFocus" src="/kakaoUi.png" alt="" />
+      <img id="wetube" src="/wetube.png" alt="" />
+      <img id="wetubeFocus" src="/wetube.png" alt="" />
+      <img id="popcornTime" src="/popcorn_time.png" alt="" />
+      <img id="popcornTimeFocus" src="/popcorn_time.png" alt="" />
     </Container>
   );
 }

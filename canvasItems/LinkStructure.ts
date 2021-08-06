@@ -113,7 +113,7 @@ export default class LinkStructure extends Structure {
           target: this._type,
           features: "",
         };
-        if (this._type === "kakaoUi") {
+        if (this._type === "kakaoUi" || this._type === "popcornTime") {
           params.features = `width=${window.innerWidth / 4}, height=${
             window.innerHeight / 1.2
           }`;

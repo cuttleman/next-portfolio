@@ -30,6 +30,7 @@ export default function Canvas(props: any) {
   const lectureFrame1: LinkStructure = new LinkStructure();
   const lectureFrame2: LinkStructure = new LinkStructure();
   const lectureFrame3: LinkStructure = new LinkStructure();
+  const lectureFrame4: LinkStructure = new LinkStructure();
 
   const aboutMe: RisingStructure = new RisingStructure();
 
@@ -71,6 +72,10 @@ export default function Canvas(props: any) {
       lectureFrame3.update(
         -screenXMax + (screenXMax / 5) * 3,
         (screenYMax / 3) * 1
+      );
+      lectureFrame4.update(
+        -screenXMax + (screenXMax / 5) * 1,
+        (screenYMax / 3) * 2
       );
       fish1.update();
       fish2.update();
@@ -223,7 +228,7 @@ export default function Canvas(props: any) {
       lectureFrame2.init(
         -screenXMax + (screenXMax / 5) * 2,
         (screenYMax / 3) * 1,
-        "toHome",
+        "wetube",
         "wetube",
         ctx,
         user,
@@ -232,11 +237,20 @@ export default function Canvas(props: any) {
       lectureFrame3.init(
         -screenXMax + (screenXMax / 5) * 3,
         (screenYMax / 3) * 1,
+        "nomflix",
+        "nomflix",
+        ctx,
+        user,
+        "https://determined-hypatia-502a08.netlify.app/"
+      );
+      lectureFrame4.init(
+        -screenXMax + (screenXMax / 5) * 1,
+        (screenYMax / 3) * 2,
         "popcornTime",
         "popcornTime",
         ctx,
         user,
-        "https://determined-hypatia-502a08.netlify.app/"
+        "https://modest-liskov-3d6872.netlify.app/"
       );
       aboutMe.init(
         screenXMax * 0,
@@ -290,6 +304,7 @@ export default function Canvas(props: any) {
         lectureFrame1,
         lectureFrame2,
         lectureFrame3,
+        lectureFrame4,
         aboutMe,
       ])
     );
@@ -315,6 +330,7 @@ export default function Canvas(props: any) {
           lectureFrame1,
           lectureFrame2,
           lectureFrame3,
+          lectureFrame4,
           aboutMe,
         ])
       );

@@ -104,6 +104,5 @@ export default class Rock extends Structure {
   ) {
     super.init(x, y, imgId, type, ctx, user);
     this._link = link;
-    console.log(y);
   }
 }
