@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import User from "../canvasItems/User";
 import Structure from "../canvasItems/Structure";
 import MoveStructure from "../canvasItems/MoveStructure";
@@ -6,8 +6,12 @@ import Bubble from "../canvasItems/Bubble";
 import { keydownHandler, randomGenerator, resizeHandler } from "../utils";
 import LinkStructure from "../canvasItems/LinkStructure";
 import RisingStructure from "../canvasItems/RisingStructure";
+import Helmet from "./Helmet";
+import { CanvasState } from "myTypes";
 
 export default function Canvas(props: any) {
+  const [title, setTitle] = useState<CanvasState.Title>("Home");
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   // Items
@@ -274,6 +278,10 @@ export default function Canvas(props: any) {
     }
   };
 
+  const changeTitle = (title: CanvasState.Title) => {
+    setTitle(title);
+  };
+
   useEffect(() => {
     canvas = canvasRef.current;
     ctx = canvas?.getContext("2d");
@@ -289,7 +297,7 @@ export default function Canvas(props: any) {
 
     document.addEventListener(
       "keydown",
-      keydownHandler(user, [
+      keydownHandler(user, changeTitle, [
         toWork,
         toLecture,
         toAbout,
@@ -315,7 +323,7 @@ export default function Canvas(props: any) {
       window.cancelAnimationFrame(animateId);
       document.removeEventListener(
         "keydown",
-        keydownHandler(user, [
+        keydownHandler(user, changeTitle, [
           toWork,
           toLecture,
           toAbout,
@@ -342,5 +350,10 @@ export default function Canvas(props: any) {
     };
   }, []);
 
-  return <canvas ref={canvasRef} {...props} />;
+  return (
+    <>
+      <Helmet title={title} />
+      <canvas ref={canvasRef} {...props} />
+    </>
+  );
 }

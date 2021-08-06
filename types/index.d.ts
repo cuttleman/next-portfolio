@@ -18,6 +18,8 @@ declare module "myTypes" {
   }
 
   namespace CanvasState {
+    type Title = "Home" | "Work" | "Lecture" | "About";
+    type setTitleFn = (title: Title) => void;
     interface GetViewport {
       x: number;
       y: number;

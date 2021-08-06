@@ -1,3 +1,4 @@
+import { CanvasState } from "myTypes";
 import Info from "./Info";
 import User from "./User";
 
@@ -84,28 +85,34 @@ export default class Structure extends Info {
     }
   }
 
-  public insertPage() {
+  public insertPage(fn?: CanvasState.setTitleFn) {
     if (this._isContact) {
-      if (this._ctx && this._user) {
+      if (this._ctx && this._user && fn) {
         const XDISTANCE = this._ctx.canvas.width;
         const YDISTANCE = this._ctx.canvas.height;
         switch (this._type) {
           case "toWork":
+            fn("Work");
             this._user.moveViewport(-XDISTANCE, 0, "work_background");
             break;
           case "toLecture":
+            fn("Lecture");
             this._user.moveViewport(XDISTANCE, 0, "lecture_background");
             break;
           case "toAbout":
+            fn("About");
             this._user.moveViewport(0, -YDISTANCE, "about_background");
             break;
           case "fromWork":
+            fn("Home");
             this._user.moveViewport(XDISTANCE, 0, "home_background");
             break;
           case "fromLecture":
+            fn("Home");
             this._user.moveViewport(-XDISTANCE, 0, "home_background");
             break;
           case "fromAbout":
+            fn("Home");
             this._user.moveViewport(0, YDISTANCE, "home_background");
             break;
           default:

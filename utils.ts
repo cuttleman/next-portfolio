@@ -6,13 +6,14 @@ import User from "./canvasItems/User";
 
 export const keydownHandler = (
   user: User,
+  fn: CanvasState.setTitleFn,
   targets: (MoveStructure | Structure | RisingStructure)[]
 ) => {
   return function (e: KeyboardEvent) {
     const { code } = e;
     user.directionControl(e);
     if (code === "Enter") {
-      targets.forEach((target) => target.insertPage());
+      targets.forEach((target) => target.insertPage(fn));
     } else if (code === "Space") {
       targets.forEach((target) => target.moreInfo());
     }

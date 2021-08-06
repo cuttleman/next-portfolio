@@ -7,7 +7,7 @@ const Helmet: React.FC<Common.HelmetProps> = ({ title }) => (
       href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap"
       rel="stylesheet"
     />
-    <title>{title}</title>
+    <title>{title} | Under the Sea</title>
     <meta name="description" content="my portfolio" />
     <link rel="icon" href="/favicon.ico" />
   </Head>
