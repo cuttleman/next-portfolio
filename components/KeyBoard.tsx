@@ -90,11 +90,11 @@ export default function KeyBoard() {
   return (
     <Container>
       <Content>
-        <Description>들어가기 / 확인</Description>
+        <Description>들어가기 / 사이트이동</Description>
         <Key isPressed={pressed.enter}>En</Key>
       </Content>
       <Content>
-        <Description>상세정보보기</Description>
+        <Description>상세보기 / 물고기잡기</Description>
         <Key isPressed={pressed.space}>Sp</Key>
       </Content>
       <Content>
