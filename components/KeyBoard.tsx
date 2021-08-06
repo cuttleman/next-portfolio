@@ -12,7 +12,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-end;
-  z-index: 999;
+  z-index: 4;
 `;
 
 const Content = styled.div`
