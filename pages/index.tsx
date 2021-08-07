@@ -1,24 +1,20 @@
-import { useState } from "react";
-import Canvas from "../components/Canvas";
-import Informations from "../components/Informations";
-import KeyBoard from "../components/KeyBoard";
+import React, { useState } from "react";
 import Loading from "../components/Loading";
-import PreLoad from "../components/PreLoad";
+import dynamic from "next/dynamic";
+
+const DynamicMain = dynamic(() => import("./Main"), { ssr: false });
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
 
-  setTimeout(() => {
+  const handleSetLoading = () => {
     setLoading(false);
-  }, 3000);
+  };
 
   return (
     <>
-      <Loading />
-      {/* {loading ? <Loading /> : <Canvas />} */}
-      <KeyBoard />
-      <PreLoad />
-      <Informations />
+      {loading && <Loading setLoading={handleSetLoading} />}
+      <DynamicMain />
     </>
   );
 }

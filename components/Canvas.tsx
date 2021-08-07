@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
 import User from "../canvasItems/User";
 import Structure from "../canvasItems/Structure";
 import MoveStructure from "../canvasItems/MoveStructure";
@@ -9,7 +10,15 @@ import RisingStructure from "../canvasItems/RisingStructure";
 import Helmet from "./Helmet";
 import { CanvasState } from "myTypes";
 
-export default function Canvas(props: any) {
+const CanvasS = styled.canvas`
+  position: fixed;
+  top:0;
+  left:0;
+  z-index:1;
+`;
+
+
+export default function Canvas() {
   const [title, setTitle] = useState<CanvasState.Title>("Home");
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -353,7 +362,7 @@ export default function Canvas(props: any) {
   return (
     <>
       <Helmet title={title} />
-      <canvas ref={canvasRef} {...props} />
+      <CanvasS ref={canvasRef} />
     </>
   );
 }

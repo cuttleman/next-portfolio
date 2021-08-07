@@ -6,6 +6,9 @@ const RootContainer = styled.div``;
 const Container = styled.div`
   display: none;
   position: absolute;
+  max-width: 500px;
+  min-width: 260px;
+  z-index: 2;
 `;
 
 const Content = styled.div`
@@ -325,7 +328,7 @@ export default function Informations() {
             <br />
             웹개발에 입문한지 2년차가 되어가는 이준오입니다.
             <br />
-            자바스크립트를 주력언어로 사용합니다.
+            자바스크립트를 좋아합니다.
             <br />
             <br />
             Canvas에 관심이 생겨 유튜버 Interactive Developer님 영상과 Cris

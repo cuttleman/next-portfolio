@@ -60,8 +60,8 @@ export default class Info {
       const screenXCenter = this._ctxInfo.canvas.width / 2;
       const screenYCenter = this._ctxInfo.canvas.height / 2;
       const boxSize =
-        this._ctxInfo.canvas.width > this._ctxInfo.canvas.height
-          ? this._ctxInfo.canvas.width / 5
+        this._ctxInfo.canvas.width < this._ctxInfo.canvas.height
+          ? this._ctxInfo.canvas.width / 3
           : this._ctxInfo.canvas.height / 2.5;
       const gapFromUser = this._userInfo.getState().size;
 
